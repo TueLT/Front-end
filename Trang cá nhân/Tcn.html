@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang cá nhân</title>
+    <link rel="stylesheet" href="Tcn.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href = "../test.html"><img src="../img/logo.png" alt="Facebook Logo" class="logo"></a>
+            <input type="text" placeholder="Tìm kiếm trên Facebook">
+        </div>
+        <div class="header-center">         
+            <button class="nav-icon active">
+                <a href = "../test.html"><img src="../img/home.png" alt="Home"></a>
+            </button>
+            <button class="nav-icon">
+                <img src="../img/flag.png" alt="Flag">
+            </button>
+            <button class="nav-icon">
+                <img src="../img/watch.png" alt="Watch">
+            </button>
+            <button class="nav-icon">
+                <a href="../marketplace/market.html">
+                    <img src="../img/marketplace.png" alt="Marketplace">
+                </a>
+                
+            </button>
+            <a href = "../Group/group.html">
+                     <button id="nav-group" class="nav-icon">
+                    <img src="../img/group.png" alt="Group">
+                </button>
+               </a>
+        </div>
+        <div class="header-right">
+            <button class="user-icon">
+                <img src="../img/home_menu.png" alt="Menu">
+            </button>
+            <button class="user-icon">
+                <a href="../messenger/mess.html">
+                    <img src="../img/messenger.png" alt="Messenger">
+                </a>
+                
+            </button>
+            <button class="user-icon">
+                <img src="../img/notification.png" alt="Notifications">
+            </button>
+            <button class="user-icon" id="profile-icon">
+                <img src="../img/profile.png" alt="Profile">
+            </button>
+            <!-- Dropdown Menu -->
+            <div class="profile-dropdown" id="profile-dropdown">
+                <div class="dropdown-header">
+                    <img src="../img/profile.png" alt="Profile">
+                    <span>Lương Tri Tuệ</span>
+                </div>
+                <div class="dropdown-item">
+                    <span class="icon">👤</span>
+                    <span>Xem tất cả trang cá nhân</span>
+                </div>
+                <div class="dropdown-item">
+                    <span class="icon">⚙️</span>
+                    <span>Cài đặt và quyền riêng tư</span>
+                    <span class="arrow">></span>
+                </div>
+                <div class="dropdown-item">
+                    <span class="icon">❓</span>
+                    <span>Trợ giúp và hỗ trợ</span>
+                    <span class="arrow">></span>
+                </div>
+                <div class="dropdown-item">
+                    <span class="icon">🌙</span>
+                    <span>Màn hình & trợ năng</span>
+                    <span class="arrow">></span>
+                </div>
+                <div class="dropdown-item">
+                    <span class="icon">💬</span>
+                    <span>Đóng góp ý kiến</span>
+                </div>
+                <div class="dropdown-item">
+                    <span class="icon">🚪</span>
+                    <span><a href = "../facebook-clone-fe/sign_in.html">Đăng xuất</a></span>
+                </div>
+                <div class="dropdown-footer">
+                    <p>Quyền riêng tư • Điều khoản • Quảng cáo • Lựa chọn quảng cáo • Cookie • Xem thêm • Meta © 2025</p>
+                    <p>Phiên bản mới</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-section">
+        <div class="profile-pic"></div>
+        <div class="profile-info">
+            
+            <h1>Lương Trí Tuệ</h1>
+            <p>376 người bạn</p>
+            <div class="buttons">
+                <button>Thêm vào tin</button>
+                <button class="secondary">Chỉnh sửa trang cá nhân</button>
+            </div>
+        </div>
+    </div>
+    <div class="tabs">
+        <a href="#" class="active">Bài viết</a>
+        <a href="#">Giới thiệu</a>
+        <a href="#">Bạn bè</a>
+        <a href="#">Ảnh</a>
+        <a href="#">Video</a>
+        <a href="#">Reels</a>
+        <a href="#">Xem thêm</a>
+    </div>
+    <div class="main-content">
+        <div class="intro-section">
+            <h2>Giới thiệu</h2>
+            <button>Thêm tiểu sử</button>
+            <p>🎓 Học Information of Technology (IT) tại Học viện Công nghệ Bưu chính Viễn thông cơ sở tại TP. Hà Nội</p>
+            <p>🎓 Đã học tại Trường THPT Chuỷên Hùng Vương</p>
+            <p>🏠 Sống tại Hưng Yên</p>
+            <p>📍 Đến từ Hưng Yên</p>
+            <p>📡 Có 27 người theo dõi</p>
+            <!-- <button>Chỉnh sửa chi tiết</button>
+            <button>Thêm nội dung đang chú ý</button> -->
+        </div>
+        <div class="posts-section">
+            <div class="create-post">
+                <input type="text" placeholder="Bạn đang nghĩ gì?">
+                <div class="post-options">
+                    <a href="#">Video trực tiếp</a>
+                    <a href="#">Ảnh/video</a>
+                    <a href="#">Sự kiện trong đời</a>
+                </div>
+            </div>
+            <div class="post">
+                <div class="post-header">
+                    <div class="profile-pic-small"></div>
+                    <div>
+                        <p>Lương Trí Tuệ • Liên Quân Mobile • 30 tháng 7, 2024</p>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>Cùng bạn tham gia</p>
+                    <img src="placeholder.jpg" alt="Sự kiện âm nhạc">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Lấy các phần tử
+        const profileIcon = document.getElementById('profile-icon');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        // Thêm sự kiện click cho biểu tượng hồ sơ
+        profileIcon.addEventListener('click', () => {
+            // Toggle class 'active' để hiển thị/ẩn dropdown
+            profileDropdown.classList.toggle('active');
+        });
+
+        // Ẩn dropdown khi nhấp ra ngoài
+        document.addEventListener('click', (event) => {
+            if (!profileIcon.contains(event.target) && !profileDropdown.contains(event.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+    </script>
+    <script src="Tcn.js"></script>
+</body>
+</html>

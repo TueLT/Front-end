@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Clone</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="test.css">
     <link rel="icon" href="../facebook-clone-fe/images/favicon.gif" type="image/gif" />
 </head>
 <body>
@@ -26,25 +26,74 @@
                     <img src="img/watch.png" alt="Watch">
                 </button>
                 <button class="nav-icon">
-                    <img src="img/marketplace.png" alt="Marketplace">
+                    <a href="marketplace/market.html">
+                        <img src="img/marketplace.png" alt="Marketplace">
+                    </a>
+                    
                 </button>
-                <button class="nav-icon">
+                <a href = "Group/group.html">
+                     <button id="nav-group" class="nav-icon">
                     <img src="img/group.png" alt="Group">
                 </button>
+               </a>
             </div>
             <div class="header-right">
                 <button class="user-icon">
                     <img src="img/home_menu.png" alt="Menu">
                 </button>
                 <button class="user-icon">
-                    <img src="img/messenger.png" alt="Messenger">
+                    <a href="messenger/mess.html">
+                        <img src="img/messenger.png" alt="Messenger">
+                    </a>
+                    
                 </button>
                 <button class="user-icon">
                     <img src="img/notification.png" alt="Notifications">
                 </button>
-                <button class="user-icon">
-                    <img src="img/profile.png" alt="Notifications">
+                <button class="user-icon" id="profile-icon">
+                    <img src="img/profile.png" alt="Profile">
                 </button>
+                <!-- Dropdown Menu -->
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div class="dropdown-header">
+                        <img src="img/profile.png" alt="Profile">
+                        <span>Lương Tri Tuệ</span>
+                    </div>
+                    <a href = "Trang cá nhân/Tcn.html">
+                        <div class="dropdown-item">
+                            <span class="icon">👤</span>
+                            <span>Xem tất cả trang cá nhân</span>
+                        </div>
+                    </a>
+                    
+                    <div class="dropdown-item">
+                        <span class="icon">⚙️</span>
+                        <span>Cài đặt và quyền riêng tư</span>
+                        <span class="arrow">></span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="icon">❓</span>
+                        <span>Trợ giúp và hỗ trợ</span>
+                        <span class="arrow">></span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="icon">🌙</span>
+                        <span>Màn hình & trợ năng</span>
+                        <span class="arrow">></span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="icon">💬</span>
+                        <span>Đóng góp ý kiến</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <span class="icon">🚪</span>
+                        <span><a href = "../facebook-clone-fe/sign_in.html">Đăng xuất</a></span>
+                    </div>
+                    <div class="dropdown-footer">
+                        <p>Quyền riêng tư • Điều khoản • Quảng cáo • Lựa chọn quảng cáo • Cookie • Xem thêm • Meta © 2025</p>
+                        <p>Phiên bản mới</p>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -52,26 +101,35 @@
         <div class="content-wrapper">
             <!-- Left Sidebar -->
             <div class="left-sidebar">
+                <a href="./Trang cá nhân/Tcn.html">
+
+              
                 <div class="profile-section">
                     <img src="img/profile.png" alt="Profile">
                     <span>Lương Tri Tuệ</span>
                 </div>
+
+                </a>
                 <div class="menu-item">
                     <img src="img/friends.png" alt="Friends">
                     <span>Bạn bè</span>
                 </div>
                 
-                <div class="menu-item">
+                <a href = "Group/group.html">
+                    <div class="menu-item">
                     <img src="img/teamwork.png" alt="Groups">
                     <span>Nhóm</span>
                 </div>
+                </a>
                 <div class="menu-item">
                     <img src="img/vid.png" alt="Video">
                     <span>Video</span>
                 </div>
                 <div class="menu-item">
-                    <img src="img/shop.png" alt="Marketplace">
-                    <span>Marketplace</span>
+                    <a href = "marketplace/market.html">
+                        <img src="img/shop.png" alt="Marketplace">
+                        <span>Marketplace</span>
+                    </a>
                 </div>
                 <h3>Lối tắt của bạn</h3>
                 <div class="menu-item">
@@ -137,6 +195,6 @@
             </div>
         </div>
     </div>
-    <script src="home.js"></script>
-</body>
+    <script src="test.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92affbaf3d384558',t:'MTc0Mzc2MTA4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

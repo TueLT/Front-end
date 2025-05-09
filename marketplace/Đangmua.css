@@ -1,0 +1,272 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-left .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.header-left input {
+    padding: 8px 12px;
+    border: none;
+    background-color: #f0f2f5;
+    border-radius: 20px;
+    font-size: 16px;
+    width: 200px;
+}
+
+.header-center {
+    display: flex;
+    gap: 100px;
+}
+
+.nav-icon {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.nav-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-icon.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 2px;
+    background-color: #1877f2;
+}
+
+.header-right {
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+.user-icon {
+    background-color: #e4e6eb;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-icon img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    z-index: 1000;
+}
+
+.profile-dropdown.active {
+    display: block;
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e4e6eb;
+}
+
+.dropdown-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.dropdown-header span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c1e21;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #e4e6eb;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f2f5;
+}
+
+.dropdown-item .icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.dropdown-item span {
+    font-size: 14px;
+    color: #1c1e21;
+    flex-grow: 1;
+}
+
+.dropdown-item .arrow {
+    font-size: 14px;
+    color: #65676b;
+}
+
+.dropdown-footer {
+    padding: 10px;
+    font-size: 12px;
+    color: #65676b;
+    border-top: 1px solid #e4e6eb;
+}
+
+.dropdown-footer p {
+    margin: 5px 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Left Sidebar */
+.left-sidebar {
+    width: 25%;
+    padding: 20px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.menu-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.menu-item span {
+    font-size: 16px;
+}
+
+.menu-item.active {
+    font-weight: bold;
+}
+
+.menu-item.create-listing {
+    background-color: #e7f3ff;
+    color: #1877f2;
+    padding: 10px;
+    border-radius: 8px;
+    justify-content: center;
+}
+
+/* Main Content */
+.main-content {
+    width: 75%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-activity {
+    text-align: center;
+}
+
+.no-activity img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.no-activity h3 {
+    font-size: 18px;
+    color: #1c1e21;
+    margin-bottom: 5px;
+}
+
+.no-activity p {
+    font-size: 14px;
+    color: #65676b;
+    margin-bottom: 20px;
+}
+
+.no-activity button {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.no-activity button:hover {
+    background-color: #165eab;
+}

@@ -81,6 +81,7 @@ body {
 .header-right {
     display: flex;
     gap: 10px;
+    position: relative;
 }
 
 .user-icon {
@@ -94,11 +95,12 @@ body {
 .user-icon img {
     width: 24px;
     height: 24px;
+    border-radius: 50%;
 }
 
 /* Profile Dropdown */
 .profile-dropdown {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
     top: 50px;
     right: 10px;
@@ -110,7 +112,7 @@ body {
 }
 
 .profile-dropdown.active {
-    display: block; /* Show when active */
+    display: block;
 }
 
 .dropdown-header {
@@ -172,6 +174,10 @@ body {
     margin: 5px 0;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
 
 /* Content Wrapper */
 .content-wrapper {
@@ -322,7 +328,7 @@ body {
 }
 
 .post-header {
-    display:-webkit-inline-flex;
+    display: flex; /* Fixed from display:-webkit-inline-flex */
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
@@ -332,8 +338,13 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    object-fit:cover;
+    object-fit: cover;
+}
 
+.post-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .post-info h3 {
@@ -353,10 +364,16 @@ body {
     margin-bottom: 10px;
 }
 
-.post img {
+.post-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.post-images img {
     width: 100%;
     border-radius: 8px;
-    margin-bottom: 10px;
 }
 
 .post-interactions {
