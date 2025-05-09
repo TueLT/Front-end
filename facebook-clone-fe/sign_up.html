@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Đăng ký Facebook | Facebook</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <link rel="icon" href="./images/favicon.gif" type="image/gif" />
+</head>
+
+<body>
+    <div class="register">
+        <div class="register__header">
+            <img src="  ./images/facebook.svg" alt="Facebook Logo" class="register__logo">
+        </div>
+        <div class="register__form-container">
+            <div class="register-form">
+                <div class="register-form__header">
+                    <div class="register-form__title">Tạo tài khoản mới</div>
+                    <div class="register-form__subtitle">Nhanh chóng và dễ dàng.</div>
+                </div>
+                <div class="register-form__body">
+                    <form method="POST" id="reg" name="reg" action="../reg" class="register-form__form">
+                        <div class="register-form__name-group">
+                            <input class="register-form__input register-form__input--surname" type="text"
+                                placeholder="Họ" />
+                            <input class="register-form__input register-form__input--firstname" type="text"
+                                placeholder="Tên" />
+                        </div>
+                        <div class="register-form__field">
+                            <input type="text" class="register-form__input register-form__input--contact"
+                                placeholder="Số điện thoại hoặc email">
+                        </div>
+                        <div class="register-form__field">
+                            <input type="password" class="register-form__input register-form__input--password"
+                                placeholder="Mật khẩu mới">
+                        </div>
+                        <div class="register-form__label">Sinh nhật</div>
+                        <div class="register-form__birthday">
+                            <select class="register-form__select register-form__select--day" name="birthday_day"
+                                id="day" title="Ngày">
+                                <option value="0">Ngày</option>
+                                <!-- Các option khác giữ nguyên -->
+                            </select>
+                            <select class="register-form__select register-form__select--month" name="birthday_month"
+                                id="month">
+                                <option value="0">Tháng</option>
+                                <!-- Các option khác giữ nguyên -->
+                            </select>
+                            <select class="register-form__select register-form__select--year" name="birthday_year"
+                                id="year">
+                                <option value="0">Năm</option>
+                                <!-- Các option khác giữ nguyên -->
+                            </select>
+                        </div>
+                        <div class="register-form__label">Giới tính</div>
+                        <span class="register-form__gender-options">
+                            <span class="register-form__gender-option">
+                                <label for="nu" class="register-form__gender-label">Nữ</label>
+                                <input type="radio" name="sex" id="nu" value="1" class="register-form__gender-input">
+                            </span>
+                            <span class="register-form__gender-option">
+                                <label for="nam" class="register-form__gender-label">Nam</label>
+                                <input type="radio" name="sex" id="nam" value="2" class="register-form__gender-input">
+                            </span>
+
+                        </span>
+                        <p class="register-form__terms">
+                            Bằng cách nhấp vào Đăng ký, bạn đồng ý với
+                            <a href="/legal/terms/update" id="terms-link" target="_blank" rel="nofollow"
+                                class="register-form__link">Điều khoản</a>,
+                            <a href="/about/privacy/update" id="privacy-link" target="_blank" rel="nofollow"
+                                class="register-form__link">Chính sách dữ liệu</a> và
+                            <a href="/policies/cookies/" id="cookie-use-link" target="_blank" rel="nofollow"
+                                class="register-form__link">Chính sách cookie</a> của chúng tôi...
+                        </p>
+                        <center>
+                            <button type="submit" class="register-form__submit">Đăng ký</button>
+                            <div class="register-form__login-link">
+                                <a href="./sign_in.html" aria-label="Bạn đã có tài khoản ư?"
+                                    class="register-form__link">Bạn đã có
+                                    tài khoản ư?</a>
+                            </div>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer__inner">
+            <div class="footer__content">
+                <ul class="footer__locale-list">
+                    <li class="footer__locale-item">Tiếng Việt</li>
+                    <li class="footer__locale-item"><a href="#" class="footer__locale-link">English (UK)</a></li>
+                    <li class="footer__locale-item"><a href="#" class="footer__locale-link">Русский</a></li>
+                </ul>
+                <div class="footer__separator"></div>
+                <div class="footer__links">
+                    <ul class="footer__link-list">
+                        <li class="footer__link-item"><a href="/r.php" title="Đăng ký Facebook"
+                                class="footer__link">Đăng ký</a></li>
+                        <!-- Các li khác giữ nguyên -->
+                    </ul>
+                </div>
+                <div class="footer__copyright">
+                    <span>Fatties Software © 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showCustom() {
+            document.getElementById("customouter").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>

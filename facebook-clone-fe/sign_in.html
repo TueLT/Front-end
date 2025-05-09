@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Facebook Clone - Đăng nhập hoặc đăng ký</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <link rel="icon" href="./images/favicon.gif" type="image/gif" />
+</head>
+
+<body>
+    <div class="login">
+        <div class="login__inner">
+            <div class="login__left">
+                <div class="login__logo-container">
+                    <img class="login__logo" src="./images/facebook.svg" alt="Facebook">
+                </div>
+                <h2 class="login__slogan">Facebook Clone giúp bạn kết nối và chia sẻ với mọi người trong cuộc sống của bạn.
+                </h2>
+            </div>
+            <div class="login__right">
+                <div class="login__form-wrapper">
+                    <div class="login-form">
+                        <form action="./login" method="POST" class="login-form__form">
+                            <div class="login-form__field">
+                                <input class="login-form__input login-form__input--email" type="text" name="email"
+                                    id="email" placeholder="Email hoặc số điện thoại">
+                            </div>
+                            <div class="login-form__field">
+                                <input class="login-form__input login-form__input--password" type="password" name="pass"
+                                    id="pass" placeholder="Mật khẩu">
+                            </div>
+                            <div class="login-form__submit-container">
+                                <button class="login-form__submit" name="login" type="submit">Đăng nhập</button>
+                            </div>
+                            <div class="login-form__forgot-password">
+                                <a href="./recover" class="login-form__link">Quên mật khẩu?</a>
+                            </div>
+                            <div class="login-form__separator"></div>
+                            <div class="login-form__create-account">
+                                <a href="./sign_up.html" role="button"
+                                    class="login-form__button login-form__button--create">Tạo tài khoản mới</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="login__page-message">
+                        <a href="./pages/create/?ref_type=registration_form" class="login__page-link">Tạo Trang</a> dành
+                        cho người nổi tiếng, nhãn hiệu hoặc doanh<br>nghiệp.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer__inner">
+            <div class="footer__content">
+                <ul class="footer__locale-list">
+                    <li class="footer__locale-item">Tiếng Việt</li>
+                    <li class="footer__locale-item"><a href="#" class="footer__locale-link">English (UK)</a></li>
+                    <li class="footer__locale-item"><a href="#" class="footer__locale-link">Русский</a></li>
+                </ul>
+                <div class="footer__separator"></div>
+                <div class="footer__links">
+                    <ul class="footer__link-list">
+                        <li class="footer__link-item"><a href="/r.php" title="Đăng ký Facebook"
+                                class="footer__link">Đăng ký</a></li>
+                        <li class="footer__link-item"><a href="/login" title="Đăng nhập Facebook"
+                                class="footer__link">Đăng nhập</a></li>
+                        <li class="footer__link-item"><a href="/messsages" title="Xem Messenger"
+                                class="footer__link">Messenger</a></li>
+                        <li class="footer__link-item"><a href="/jobs" title="Xem việc làm" class="footer__link">Việc
+                                làm</a></li>
+                        <li class="footer__link-item"><a href="/about" title="Xem giới thiệu" class="footer__link">Giới
+                                thiệu</a></li>
+                        <li class="footer__link-item"><a href="/developers" title="Xem nhà phát triển"
+                                class="footer__link">Nhà phát triển</a></li>
+                        <li class="footer__link-item"><a href="/careers" title="Xem tuyển dụng"
+                                class="footer__link">Tuyển dụng</a></li>
+                        <li class="footer__link-item"><a href="/privacy" title="Xem quyền riêng tư"
+                                class="footer__link">Quyền riêng tư</a></li>
+                        <li class="footer__link-item"><a href="/policies" title="Xem điều khoản"
+                                class="footer__link">Điều khoản</a></li>
+                        <li class="footer__link-item"><a href="/policies/cookies" title="Xem điều khoản Cookie"
+                                class="footer__link">Cookie</a></li>
+                        <li class="footer__link-item"><a href="/help" title="Xem trợ giúp" class="footer__link">Trợ
+                                giúp</a></li>
+                    </ul>
+                </div>
+                <div class="footer__copyright">
+                    <span>Fatties Software © 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,662 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #ffffff;
+  margin: 0;
+  color: #1c1e21;
+  direction: ltr;
+  line-height: 1.34;
+}
+
+.login {
+  background-color: #f0f2f5;
+  padding-bottom: 112px;
+  padding-top: 72px;
+}
+
+.login__inner {
+  margin: 0 auto;
+  padding: 20px 0;
+  position: relative;
+  width: 980px;
+}
+
+.login__left {
+  box-sizing: border-box;
+  margin-right: 0;
+  padding-right: 32px;
+  width: 580px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.login__logo-container {
+  padding: 112px 0 16px;
+}
+
+.login__logo {
+  height: 106px;
+  margin: -28px;
+}
+
+.login__slogan {
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 32px;
+  width: 500px;
+  margin: 0;
+}
+
+.login__right {
+  display: inline-block;
+}
+
+.login__form-wrapper {
+  height: 456px;
+}
+
+.login-form {
+  padding-bottom: 24px;
+  padding-top: 10px;
+  text-align: center;
+  background-color: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  box-sizing: border-box;
+  margin: 40px 0 0;
+  width: 396px;
+}
+
+.login-form__form {
+  margin: 0;
+  padding: 0;
+}
+
+.login-form__field {
+  font-size: 17px;
+  width: 364px;
+  margin: auto;
+  padding: 6px 0;
+}
+
+.login-form__input {
+  border-radius: 6px;
+  font-size: 17px;
+  padding: 30px 16px;
+  width: 360px;
+  border: 1px solid #dddfe2;
+  height: 22px;
+  line-height: 16px;
+}
+
+.login-form__input:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px #e7f3ff;
+  caret-color: #1877f2;
+}
+
+.login-form__input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+.login-form__submit-container {
+  padding-top: 10px;
+}
+
+.login-form__submit {
+  background-color: #1877f2;
+  border: none;
+  border-radius: 6px;
+  font-size: 20px;
+  line-height: 48px;
+  padding: 0 16px;
+  width: 332px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: content-box;
+  color: #fff;
+  transition: 200ms cubic-bezier(0.08, 0.52, 0.52, 1) background-color,
+    200ms cubic-bezier(0.08, 0.52, 0.52, 1) box-shadow,
+    200ms cubic-bezier(0.08, 0.52, 0.52, 1) transform;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+}
+
+.login-form__submit:hover {
+  background-color: #166fe5;
+}
+
+.login-form__forgot-password {
+  margin-top: 16px;
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+}
+
+.login-form__link {
+  font-family: inherit;
+  color: #1877f2;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-form__separator {
+  align-items: center;
+  border-bottom: 1px solid #dadde1;
+  display: flex;
+  margin: 20px 16px;
+  text-align: center;
+}
+
+.login-form__create-account {
+  padding-top: 6px;
+}
+
+.login-form__button--create {
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  line-height: 48px;
+  padding: 0 16px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: #42b72a;
+  color: #fff;
+  transition: 200ms cubic-bezier(0.08, 0.52, 0.52, 1) background-color,
+    200ms cubic-bezier(0.08, 0.52, 0.52, 1) box-shadow,
+    200ms cubic-bezier(0.08, 0.52, 0.52, 1) transform;
+  box-sizing: content-box;
+  -webkit-font-smoothing: antialiased;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: none;
+}
+
+.login-form__button--create:hover {
+  background-color: #36a420;
+  border-color: #36a420;
+}
+
+.login__page-message {
+  border-top: none;
+  color: #1c1e21;
+  font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  padding-top: 0;
+  margin-top: 28px;
+  text-align: center;
+}
+
+.login__page-link {
+  font-family: SFProText-Semibold, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: inherit;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.footer {
+  padding-top: 20px;
+  font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+}
+
+.footer__inner {
+  margin: 0 auto;
+  width: 980px;
+}
+
+.footer__content {
+  color: #737373;
+}
+
+.footer__locale-list {
+  font-family: inherit;
+  padding-top: 8px;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.footer__locale-item {
+  padding-left: 10px;
+}
+
+.footer__locale-item:first-child {
+  padding-left: 0;
+}
+
+.footer__locale-link {
+  text-decoration: none;
+  white-space: nowrap;
+  color: #8a8d91;
+  font-size: 12px;
+}
+
+.footer__locale-link:hover {
+  text-decoration: underline;
+}
+
+.footer__separator {
+  border-bottom: 1px solid #dddfe2;
+  font-size: 1px;
+  height: 8px;
+  margin-bottom: 8px;
+}
+
+.footer__link-list {
+  line-height: 1.6;
+  margin-left: -20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer__link-item {
+  padding-left: 20px;
+}
+
+.footer__link-item:first-child {
+  padding-left: 0;
+}
+
+.footer__link {
+  text-decoration: none;
+  white-space: nowrap;
+  color: #8a8d91;
+  font-size: 12px;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+.footer__copyright {
+  font-size: 11px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+body {
+  background-color: #ffffff;
+  margin: 0;
+  color: #1c1e21;
+  direction: ltr;
+  line-height: 1.34;
+}
+
+.register {
+  background-color: #f0f2f5;
+}
+
+.register__header {
+  display: flex;
+  justify-content: center;
+}
+
+.register__logo {
+  height: 100px;
+}
+
+.register__form-container {
+  padding-top: 5px;
+}
+
+.register-form {
+  padding-bottom: 60px;
+}
+
+.register-form__header {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  margin: 0 auto;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px 8px 0 0;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  position: relative;
+  width: 432px;
+  z-index: 1;
+}
+
+.register-form__title {
+  font-size: 25px;
+  line-height: 32px;
+  text-align: center;
+  font-family: SFProDisplay-Bold, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+}
+
+.register-form__subtitle {
+  font-size: 15px;
+  line-height: 24px;
+  text-align: center;
+  color: #606770;
+  font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+}
+
+.register-form__body {
+  background-color: #fff;
+  border-radius: 0 0 8px 8px;
+  border-top: 1px solid #dadde1;
+  padding: 16px;
+  position: relative;
+  width: 432px;
+  margin: 0 auto;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  overflow: hidden; /* Ngăn tràn */
+}
+
+.register-form__name-group {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 12px; /* Khoảng cách giữa hai input */
+}
+
+.register-form__input {
+  padding: 11px;
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 16px;
+  border: 1px solid #ccd0d5;
+  border-radius: 5px;
+}
+
+.register-form__input--surname,
+.register-form__input--firstname {
+  flex: 1; /* Chia đều không gian */
+  width: 0; /* Ngăn mở rộng quá mức */
+  min-width: 0; /* Đảm bảo co lại nếu cần */
+  padding: 11px;
+  font-size: 15px;
+  line-height: 16px;
+  border: 1px solid #ccd0d5;
+  border-radius: 5px;
+}
+
+.register-form__input--contact,
+.register-form__input--password {
+  margin-top: 10px;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.register-form__field {
+  display: flex;
+}
+
+.register-form__label {
+  color: #606770;
+  font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+  margin-top: 12px;
+}
+
+.register-form__birthday {
+  display: flex;
+  flex-direction: row;
+}
+
+.register-form__select {
+  border-radius: 4px;
+  color: #1c1e21;
+  font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  height: 36px;
+  line-height: 20px;
+  -webkit-appearance: none;
+  background-image: url(../../images/dropdown.png);
+  background-position: right 5px center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  padding: 0 8px;
+  padding-right: 20px;
+  width: 100%;
+  border: 1px solid #ccd0d5;
+}
+
+.register-form__select--day {
+  flex-grow: 1;
+}
+
+.register-form__select--month {
+  flex-grow: 1;
+  margin-left: 12px;
+}
+
+.register-form__select--year {
+  flex-grow: 1;
+  margin-left: 12px;
+}
+
+.register-form__gender-options {
+  display: flex;
+  flex-direction: row;
+  margin: -8px -6px -6px;
+}
+
+.register-form__gender-option {
+  flex-grow: 1;
+  background-color: #fff;
+  border: 1px solid #ccd0d5;
+  box-sizing: border-box;
+  display: inline-block;
+  flex: 1 0 auto;
+  font-weight: normal;
+  height: 36px;
+  margin: 8px 6px 6px;
+  padding: 0;
+  position: relative;
+  width: auto;
+  border-radius: 4px;
+}
+
+.register-form__gender-label {
+  box-sizing: border-box;
+  color: #1c1e21;
+  display: inline-block;
+  font-family: SFProText-Medium, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 36px;
+  padding: 0 28px 0 10px;
+  width: 100%;
+}
+
+.register-form__gender-input {
+  height: 36px;
+  margin: 0;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+
+.register-form__custom-gender {
+  margin-top: 10px;
+}
+
+.register-form__select--pronoun {
+  -webkit-appearance: none;
+  background-image: url(../../images/dropdown.png);
+  background-position: right 5px center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  padding: 0 8px;
+  padding-right: 20px;
+  border-radius: 4px;
+  color: #1c1e21;
+  font-size: 15px;
+  font-weight: normal;
+  height: 36px;
+  line-height: 20px;
+  width: 100%;
+  border: 1px solid #ccd0d5;
+  margin: 4px 0;
+}
+
+.register-form__note {
+  color: #606770;
+  font-size: 12px;
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+}
+
+.register-form__input--custom-gender {
+  width: 100%;
+}
+
+.register-form__terms {
+  color: #777;
+  font-size: 11px;
+  margin: 1em 0;
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+}
+
+.register-form__link {
+  font-size: 11px;
+  color: #385898;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+}
+
+.register-form__submit {
+  font-weight: bold;
+  background: none;
+  background-color: #00a400;
+  border: none;
+  border-radius: 6px;
+  box-shadow: none;
+  color: #fff;
+  font-size: 18px;
+  height: 36px;
+  overflow: hidden;
+  padding: 0 32px;
+  text-shadow: none;
+  min-width: 194px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.register-form__login-link {
+  padding: 10px 0;
+}
+
+.register-form__login-link .register-form__link {
+  color: #1877f2;
+  font-size: 17px;
+  line-height: 20px;
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+}
+
+.footer {
+  padding-top: 20px;
+  font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+}
+
+.footer__inner {
+  margin: 0 auto;
+  width: 980px;
+}
+
+.footer__content {
+  color: #737373;
+}
+
+.footer__locale-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  margin: 0;
+  padding: 8px 0 0;
+  font-size: 12px;
+}
+
+.footer__locale-item {
+  padding-left: 10px;
+}
+
+.footer__locale-item:first-child {
+  padding-left: 0;
+}
+
+.footer__locale-link {
+  text-decoration: none;
+  white-space: nowrap;
+  color: #8a8d91;
+  font-size: 12px;
+}
+
+.footer__locale-link:hover {
+  text-decoration: underline;
+}
+
+.footer__separator {
+  border-bottom: 1px solid #dddfe2;
+  font-size: 1px;
+  height: 8px;
+  margin-bottom: 8px;
+}
+
+.footer__link-list {
+  line-height: 1.6;
+  margin-left: -20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer__link-item {
+  padding-left: 20px;
+}
+
+.footer__link-item:first-child {
+  padding-left: 0;
+}
+
+.footer__link {
+  text-decoration: none;
+  white-space: nowrap;
+  color: #8a8d91;
+  font-size: 12px;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+.footer__copyright {
+  font-size: 11px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
