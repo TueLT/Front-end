@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang cá nhân</title>
+    <title>Lương Trí Tuệ - Trang cá nhân</title>
     <link rel="stylesheet" href="Tcn.css">
 </head>
 <body>
@@ -92,9 +92,12 @@
     </header>
 
     <div class="profile-section">
-        <div class="profile-pic"></div>
+        <div class="profile-pic-container">
+            <div class="profile-pic"></div>
+            <label for="avatar-upload" class="avatar-upload-btn">Thay đổi ảnh đại diện</label>
+            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+        </div>
         <div class="profile-info">
-            
             <h1>Lương Trí Tuệ</h1>
             <p>376 người bạn</p>
             <div class="buttons">
@@ -103,68 +106,87 @@
             </div>
         </div>
     </div>
+
     <div class="tabs">
-        <a href="#" class="active">Bài viết</a>
-        <a href="#">Giới thiệu</a>
-        <a href="#">Bạn bè</a>
-        <a href="#">Ảnh</a>
-        <a href="#">Video</a>
-        <a href="#">Reels</a>
-        <a href="#">Xem thêm</a>
+        <a href="#" class="tab-link active">Bài viết</a>
+        <a href="#" class="tab-link">Giới thiệu</a>
+        <a href="#" class="tab-link">Bạn bè</a>
+        <a href="#" class="tab-link">Ảnh</a>
+        <a href="#" class="tab-link">Video</a>
+        <a href="#" class="tab-link">Reels</a>
+        <a href="#" class="tab-link">Xem thêm</a>
     </div>
+
     <div class="main-content">
-        <div class="intro-section">
-            <h2>Giới thiệu</h2>
-            <button>Thêm tiểu sử</button>
-            <p>🎓 Học Information of Technology (IT) tại Học viện Công nghệ Bưu chính Viễn thông cơ sở tại TP. Hà Nội</p>
-            <p>🎓 Đã học tại Trường THPT Chuỷên Hùng Vương</p>
-            <p>🏠 Sống tại Hưng Yên</p>
-            <p>📍 Đến từ Hưng Yên</p>
-            <p>📡 Có 27 người theo dõi</p>
-            <!-- <button>Chỉnh sửa chi tiết</button>
-            <button>Thêm nội dung đang chú ý</button> -->
-        </div>
+        <div class="intro-section" id="introSection"></div>
         <div class="posts-section">
             <div class="create-post">
-                <input type="text" placeholder="Bạn đang nghĩ gì?">
-                <div class="post-options">
-                    <a href="#">Video trực tiếp</a>
-                    <a href="#">Ảnh/video</a>
-                    <a href="#">Sự kiện trong đời</a>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-header">
+                <div class="create-post-header">
                     <div class="profile-pic-small"></div>
-                    <div>
-                        <p>Lương Trí Tuệ • Liên Quân Mobile • 30 tháng 7, 2024</p>
+                    <div class="create-post-input" onclick="openPostModal()">
+                        Bạn đang nghĩ gì?
                     </div>
                 </div>
-                <div class="post-content">
-                    <p>Cùng bạn tham gia</p>
-                    <img src="placeholder.jpg" alt="Sự kiện âm nhạc">
+                <hr>
+                <div class="post-options">
+                    <a href="#" class="post-option">
+                        <span class="icon live-video">📡</span>
+                        <span>Video trực tiếp</span>
+                    </a>
+                    <a href="#" class="post-option">
+                        <span class="icon photo-video">📷</span>
+                        <span>Ảnh/video</span>
+                    </a>
+                    <a href="#" class="post-option">
+                        <span class="icon life-event">🎉</span>
+                        <span>Sự kiện trong đời</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        // Lấy các phần tử
-        const profileIcon = document.getElementById('profile-icon');
-        const profileDropdown = document.getElementById('profile-dropdown');
 
-        // Thêm sự kiện click cho biểu tượng hồ sơ
-        profileIcon.addEventListener('click', () => {
-            // Toggle class 'active' để hiển thị/ẩn dropdown
-            profileDropdown.classList.toggle('active');
-        });
+    <!-- Post Creation Modal -->
+    <div class="modal-overlay" id="postModalOverlay">
+        <div class="post-modal">
+            <div class="modal-header">
+                <h2>Tạo bài viết</h2>
+                <button class="close-btn" onclick="closePostModal()">✖</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-profile">
+                    <div class="profile-pic-small"></div>
+                    <div class="profile-info">
+                        <span class="username">Lương Trí Tuệ</span>
+                        <div class="privacy-settings" onclick="togglePrivacyDropdown()">
+                            <span id="selectedPrivacy">👤 Chỉ mình tôi</span>
+                            <span class="dropdown-arrow">▼</span>
+                            <div class="privacy-dropdown" id="privacyDropdown">
+                                <div class="privacy-option" data-value="public" onclick="selectPrivacy('🌐 Công khai', 'public')">🌐 Công khai</div>
+                                <div class="privacy-option" data-value="friends" onclick="selectPrivacy('👥 Bạn bè', 'friends')">👥 Bạn bè</div>
+                                <div class="privacy-option" data-value="only-me" onclick="selectPrivacy('👤 Chỉ mình tôi', 'only-me')">👤 Chỉ mình tôi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <textarea id="postContent" placeholder="Bạn đang nghĩ gì?" rows="3"></textarea>
+                <div class="modal-options">
+                    <span>Thêm vào bài viết của bạn</span>
+                    <div class="options-icons">
+                        <span class="icon format">🌈</span>
+                        <span class="icon emoji">😊</span>
+                        <span class="icon photo">📷</span>
+                        <span class="icon tag">👥</span>
+                        <span class="icon location">📍</span>
+                        <span class="icon gif">GIF</span>
+                        <span class="icon more">⋯</span>
+                    </div>
+                </div>
+            </div>
+            <button class="post-btn" onclick="submitPost()" disabled>Đăng</button>
+        </div>
+    </div>
 
-        // Ẩn dropdown khi nhấp ra ngoài
-        document.addEventListener('click', (event) => {
-            if (!profileIcon.contains(event.target) && !profileDropdown.contains(event.target)) {
-                profileDropdown.classList.remove('active');
-            }
-        });
-    </script>
     <script src="Tcn.js"></script>
 </body>
 </html>
