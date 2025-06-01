@@ -102,18 +102,17 @@
             <!-- Left Sidebar -->
             <div class="left-sidebar">
                 <a href="./Trang cá nhân/Tcn.html">
-
-              
-                <div class="profile-section">
-                    <img src="img/profile.png" alt="Profile">
-                    <span>Lương Tri Tuệ</span>
-                </div>
-
+                    <div class="profile-section">
+                        <img src="img/profile.png" alt="Profile">
+                        <span>Lương Tri Tuệ</span>
+                    </div>
                 </a>
-                <div class="menu-item">
+                <a href = "Banbe/banbe.html">
+                    <div class="menu-item">
                     <img src="img/friends.png" alt="Friends">
                     <span>Bạn bè</span>
                 </div>
+                </a>
                 
                 <a href = "Group/group.html">
                     <div class="menu-item">
@@ -147,7 +146,7 @@
                 <div class="create-post">
                     <div class="create-post-input">
                         <img src="img/profile.png" alt="Profile" class="profile-pic">
-                        <input type="text" placeholder="Tuệ ơi, bạn đang nghĩ gì thế?">
+                        <input type="text" placeholder="Tuệ ơi, bạn đang nghĩ gì thế?" id="create-post-input">
                     </div>
                     <div class="post-options">
                         <button>
@@ -195,6 +194,42 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for Creating Post -->
+    <div class="modal" id="post-modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal">×</button>
+            <div class="modal-header">
+                Tạo bài viết
+            </div>
+            <div class="modal-body">
+                <div class="profile-info">
+                    <img src="img/profile.png" alt="Profile">
+                    <div>
+                        <span>Lương Tri Tuệ</span><br>
+                        <select>
+                            <option>Chỉ mình tôi</option>
+                            <option>Công khai</option>
+                            <option>Bạn bè</option>
+                        </select>
+                    </div>
+                </div>
+                <textarea placeholder="Tuệ ơi, bạn đang nghĩ gì thế?" id="post-content"></textarea>
+            </div>
+            <div class="modal-footer">
+                <div class="options">
+                    <button><img src="img/picture.png" alt="Photo"></button>
+                    <button><img src="img/friends.png" alt="Tag"></button>
+                    <button><img src="img/smile.png" alt="Feeling"></button>
+                    <button><img src="img/location.png" alt="Location"></button>
+                    <button><img src="img/gif.png" alt="GIF"></button>
+                    <button><img src="img/more.png" alt="More"></button>
+                </div>
+                <button class="post-btn" id="post-btn">Đăng</button>
+            </div>
+        </div>
+    </div>
+
     <script src="test.js"></script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92affbaf3d384558',t:'MTc0Mzc2MTA4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>

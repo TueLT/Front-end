@@ -23,14 +23,18 @@ const storiesData = [{
 
 const postsData = [{
     id: 1,
-    groupName: "PUBG BATTLEGROUNDS", // Changed 'author' to 'groupName' for consistency
-    author: "PUBG Official", // Added 'author' field to match group.js
-    timestamp: "6 phút", // Changed 'time' to 'timestamp'
+    groupName: "PUBG BATTLEGROUNDS",
+    author: "PUBG Official",
+    timestamp: "6 phút",
     content: "EKDV PVS 2025 Spring!! Team Flash bất ngờ công bố bản hợp đồng mới 🔥🔥 RAMBO (FL BOTRELIMEX) 🔥🔥",
-    profileImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8ku7ynjD6DIcRDtkYeBOxnFABgi_AcmWAYA&s", // Already present, keeping it
-    images: ["https://kenh14cdn.com/2020/3/17/photo-1-1584431036054111629311.jpg"], // Changed to array for consistency
+    profileImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8ku7ynjD6DIcRDtkYeBOxnFABgi_AcmWAYA&s",
+    images: ["https://kenh14cdn.com/2020/3/17/photo-1-1584431036054111629311.jpg"],
     likes: 120,
     comments: 45,
+    commentsList: [
+        { id: 1, author: "Thảo Minh", content: "Chúc mừng Team Flash!", timestamp: "5 phút" },
+        { id: 2, author: "Nguyễn Văn Boy", content: "RAMBO quá đỉnh! 🔥", timestamp: "4 phút" },
+    ],
     shares: 23,
     liked: false,
 },
@@ -44,6 +48,9 @@ const postsData = [{
     images: ["https://cdn.tgdd.vn/Files/2021/12/12/1403925/pubg-pc_1280x720-800-resize.jpg"],
     likes: 89,
     comments: 12,
+    commentsList: [
+        { id: 1, author: "Lương Tri Tuệ", content: "Tuyệt vời! Chúc mừng cả đội!", timestamp: "50 phút" },
+    ],
     shares: 5,
     liked: false,
 },
@@ -57,6 +64,7 @@ const postsData = [{
     images: ["https://nguyencongpc.vn/media/news/1003_top-pc-choi-pubg-2.jpg"],
     likes: 305,
     comments: 67,
+    commentsList: [],
     shares: 34,
     liked: false,
 },
@@ -77,7 +85,7 @@ function renderStories() {
         .join("");
 }
 
-// Function to create a post element (similar to group.js)
+// Function to create a post element
 function createPost(post) {
     const postElement = document.createElement('div');
     postElement.classList.add('post');
@@ -88,7 +96,7 @@ function createPost(post) {
     postHeader.classList.add('post-header');
 
     const profileImg = document.createElement('img');
-    profileImg.src = post.profileImage; // Use the specific profile image from the post data
+    profileImg.src = post.profileImage;
     profileImg.alt = "Profile";
 
     const postInfo = document.createElement('div');
@@ -146,6 +154,7 @@ function createPost(post) {
     likeButton.onclick = () => toggleLike(post.id);
 
     const commentButton = document.createElement('button');
+    commentButton.classList.add('comment-toggle-btn');
     commentButton.textContent = "Bình luận";
 
     const shareButton = document.createElement('button');
@@ -155,12 +164,90 @@ function createPost(post) {
     postActions.appendChild(commentButton);
     postActions.appendChild(shareButton);
 
+    // Comment Section (initially hidden)
+    const commentSection = document.createElement('div');
+    commentSection.classList.add('comment-section');
+    commentSection.style.display = 'none'; // Initially hidden
+
+    // Display existing comments
+    const commentList = document.createElement('div');
+    commentList.classList.add('comment-list');
+    if (post.commentsList && post.commentsList.length > 0) {
+        post.commentsList.forEach(comment => {
+            const commentItem = document.createElement('div');
+            commentItem.classList.add('comment-item');
+            commentItem.innerHTML = `
+                <span class="comment-author">${comment.author}</span>
+                <span class="comment-content">${comment.content}</span>
+                <span class="comment-timestamp">${comment.timestamp}</span>
+            `;
+            commentList.appendChild(commentItem);
+        });
+    }
+
+    // Comment Input and Button
+    const commentInputContainer = document.createElement('div');
+    commentInputContainer.classList.add('comment-input-container');
+
+    const commentInput = document.createElement('input');
+    commentInput.type = 'text';
+    commentInput.placeholder = 'Viết bình luận...';
+    commentInput.classList.add('comment-input');
+
+    const commentSubmitButton = document.createElement('button');
+    commentSubmitButton.textContent = 'Gửi';
+    commentSubmitButton.classList.add('comment-submit-btn');
+    commentSubmitButton.disabled = true;
+
+    // Enable button when there's text in the input
+    commentInput.addEventListener('input', () => {
+        commentSubmitButton.disabled = commentInput.value.trim() === '';
+    });
+
+    // Handle comment submission
+    commentSubmitButton.addEventListener('click', () => {
+        if (commentInput.value.trim() !== '') {
+            const newComment = {
+                id: (post.commentsList ? post.commentsList.length + 1 : 1),
+                author: "Lương Tri Tuệ",
+                content: commentInput.value,
+                timestamp: "Vừa xong",
+            };
+            if (!post.commentsList) post.commentsList = [];
+            post.commentsList.push(newComment);
+            post.comments += 1;
+            commentInput.value = '';
+            commentSubmitButton.disabled = true;
+            renderPosts();
+        }
+    });
+
+    // Allow pressing Enter to submit the comment
+    commentInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && commentInput.value.trim() !== '') {
+            commentSubmitButton.click();
+        }
+    });
+
+    // Toggle comment section visibility when clicking the "Bình luận" button
+    commentButton.addEventListener('click', () => {
+        const isHidden = commentSection.style.display === 'none';
+        commentSection.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) commentInput.focus(); // Focus the input when shown
+    });
+
+    commentInputContainer.appendChild(commentInput);
+    commentInputContainer.appendChild(commentSubmitButton);
+    commentSection.appendChild(commentList);
+    commentSection.appendChild(commentInputContainer);
+
     // Assemble the post
     postElement.appendChild(postHeader);
     postElement.appendChild(postContent);
     if (postImages) postElement.appendChild(postImages);
     postElement.appendChild(postInteractions);
     postElement.appendChild(postActions);
+    postElement.appendChild(commentSection);
 
     return postElement;
 }
@@ -168,7 +255,7 @@ function createPost(post) {
 // Render Posts
 function renderPosts() {
     const postsContainer = document.getElementById("posts-container");
-    postsContainer.innerHTML = ''; // Clear existing content
+    postsContainer.innerHTML = '';
     postsData.forEach(post => {
         const postElement = createPost(post);
         postsContainer.appendChild(postElement);
@@ -211,4 +298,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add event listener for clicking outside the dropdown
     document.addEventListener("click", closeDropdownOnClickOutside);
+
+    // Show modal when clicking the input
+    const createPostInput = document.getElementById('create-post-input');
+    const postModal = document.getElementById('post-modal');
+    const closeModal = document.getElementById('close-modal');
+    const postContent = document.getElementById('post-content');
+    const postBtn = document.getElementById('post-btn');
+
+    createPostInput.addEventListener('click', () => {
+        postModal.classList.add('active');
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        postModal.classList.remove('active');
+        postContent.value = '';
+        postBtn.classList.remove('active');
+    });
+
+    // Enable post button when text is entered
+    postContent.addEventListener('input', () => {
+        if (postContent.value.trim() !== '') {
+            postBtn.classList.add('active');
+        } else {
+            postBtn.classList.remove('active');
+        }
+    });
+
+    // Handle post submission
+    postBtn.addEventListener('click', () => {
+        if (postContent.value.trim() !== '') {
+            const newPost = {
+                id: postsData.length + 1,
+                groupName: "Lương Tri Tuệ",
+                author: "Lương Tri Tuệ",
+                timestamp: "Vừa xong",
+                content: postContent.value,
+                profileImage: "img/profile.png",
+                images: [],
+                likes: 0,
+                comments: 0,
+                commentsList: [],
+                shares: 0,
+                liked: false,
+            };
+            postsData.unshift(newPost);
+            renderPosts();
+            postModal.classList.remove('active');
+            postContent.value = '';
+            postBtn.classList.remove('active');
+        }
+    });
+
+    // Close modal when clicking outside
+    postModal.addEventListener('click', (e) => {
+        if (e.target === postModal) {
+            postModal.classList.remove('active');
+            postContent.value = '';
+            postBtn.classList.remove('active');
+        }
+    });
 });
