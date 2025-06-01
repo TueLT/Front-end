@@ -93,8 +93,8 @@ body {
     overflow-y: auto;
 }
 .message {
-    display: block; /* Đảm bảo mỗi tin nhắn trên một dòng */
-    width: fit-content; /* Chiếm không gian theo nội dung */
+    display: block;
+    width: fit-content;
     padding: 8px 12px;
     margin-bottom: 10px;
     border-radius: 18px;
