@@ -186,7 +186,24 @@
             <button class="post-btn" onclick="submitPost()" disabled>Đăng</button>
         </div>
     </div>
+     <script>
+        // Lấy các phần tử
+        const profileIcon = document.getElementById('profile-icon');
+        const profileDropdown = document.getElementById('profile-dropdown');
 
+        // Thêm sự kiện click cho biểu tượng hồ sơ
+        profileIcon.addEventListener('click', () => {
+            // Toggle class 'active' để hiển thị/ẩn dropdown
+            profileDropdown.classList.toggle('active');
+        });
+
+        // Ẩn dropdown khi nhấp ra ngoài
+        document.addEventListener('click', (event) => {
+            if (!profileIcon.contains(event.target) && !profileDropdown.contains(event.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+    </script>
     <script src="Tcn.js"></script>
 </body>
 </html>
