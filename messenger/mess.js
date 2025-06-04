@@ -10,10 +10,10 @@
     const searchInput = document.getElementById("search-input");
     let curentFriendId = null;
     const token = localStorage.getItem("tokenRaw");
-    if (!token || !currentUserId) {
-      alert("Vui lòng đăng nhập lại!");
-      window.location.href = 'http://127.0.0.1:5500/Code_Fe/Front-end/facebook-clone-fe/sign_in.html';
-    }
+    // if (!token || !currentUserId) {
+    //   alert("Vui lòng đăng nhập lại!");
+    //   window.location.href = 'http://127.0.0.1:5500/front-end/facebook-clone-fe/sign_in.html';
+    // }
 
     // ====== SOCKET.IO INIT ======
     if (!window.socket) {
@@ -96,7 +96,7 @@
         });
 
         if (!response.ok){
-            window.location.href = 'http://127.0.0.1:5500/Code_Fe/Front-end/facebook-clone-fe/sign_in.html';
+            window.location.href = 'http://127.0.0.1:5500/front-end/facebook-clone-fe/sign_in.html';
         };
 
         const friends = await response.json();
@@ -117,7 +117,7 @@
 
       } catch (error) {
         console.error('Lỗi tải danh sách bạn bè:', error);
-        window.location.href = 'http://127.0.0.1:5500/Code_Fe/Front-end/facebook-clone-fe/sign_in.html';
+        window.location.href = 'http://127.0.0.1:5500/front-end/facebook-clone-fe/sign_in.html';
       }
     }
 
