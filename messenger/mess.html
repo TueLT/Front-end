@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link rel="icon" href="../facebook-clone-fe//images//favicon.gif" type="image/gif" />
     <link rel="stylesheet" href="mess.css">
 </head>
+
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">Đoạn chat</div>
-        <input type="text" class="search-bar" placeholder="Tìm kiếm...">
-        <div id="chat-list"></div>
-    </div>
-    <div class="main-chat">
-        <div class="chat-header">
-            <img src="https://via.placeholder.com/40" alt="Avatar">
-            <div>
-                <div class="chat-name">Thằng đệ non</div>
-                <div class="status">Đang hoạt động</div>
+    <div class="container">
+        <div class="sidebar">
+            <input type="text" id="search-input" placeholder="Search..." />
+            <div class="friends" id="friend-list"></div>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat-header" id="chat-header">Chọn bạn để bắt đầu</div>
+            <div class="chat-box" id="chat-box"></div>
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Aa" />
+                <button id="send-btn">Gửi</button>
             </div>
         </div>
-        <div id="chat-body" class="chat-body"></div>
-        <div class="chat-footer">
-            <input type="text" id="message-input" placeholder="Nhập tin nhắn...">
-            <button id="send-button">
-                <img src="../img/send-message.png" alt="Send">
-            </button>
-        </div>
     </div>
-   
     <script src="mess.js"></script>
 </body>
+
 </html>

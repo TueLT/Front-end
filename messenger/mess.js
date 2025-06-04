@@ -1,248 +1,209 @@
-const defaultMessengerData = {
-    user: {
-        id: 0,
-        name: "Người dùng chính",
-        status: "Đang hoạt động",
-        avatar: "https://via.placeholder.com/40",
-        email: "user@example.com",
-        lastSeen: "Vừa xong",
-        theme: "Valorant"
-    },
-    chats: [
-        {
-            id: 1,
-            name: "FC Dưỡng Sinh",
-            preview: "Linh: Đặt sàn 1h chiều",
-            time: "1 giờ",
-            avatar: "https://via.placeholder.com/40",
-            status: "Đang hoạt động",
-            messages: []
-        },
-        {
-            id: 2,
-            name: "BLV Giảng A Phò và Giảng A Lừ",
-            preview: "Đặt đã gửi mút tơ đinh kèm",
-            time: "1 giờ",
-            avatar: "https://via.placeholder.com/40",
-            status: "Đang hoạt động",
-            messages: []
-        },
-        {
-            id: 3,
-            name: "Thằng đệ non",
-            preview: "Hết tiền đặt",
-            time: "1 giờ",
-            avatar: "../img/hinh-anh-cute-avatar-vo-tri-3.jpg",
-            status: "Đang hoạt động",
-            messages: [
-                { id: 1, text: "Chịu", sender: "other", type: "received" },
-                { id: 2, text: "Nắng", sender: "other", type: "received" },
-                { id: 3, text: "Gạ kèo bóng đi", sender: "me", type: "sent" },
-                { id: 4, text: "Game đi", sender: "other", type: "received" },
-                { id: 5, text: "đá Thủy Lợi?", sender: "other", type: "received" },
-                { id: 6, text: "Ko có số", sender: "me", type: "sent" },
-                { id: 7, text: "Hết tiền đặt", sender: "me", type: "sent" }
-            ]
-        },
-        {
-            id: 4,
-            name: "NT12 (T600LR)",
-            preview: "Đăng Ngố đã khởi nhiệm",
-            time: "4 giờ",
-            avatar: "https://via.placeholder.com/40",
-            status: "Đang hoạt động",
-            messages: []
+  const currentUserId = parseInt(localStorage.getItem("userId"));
+    let currentRoomId = null;
+    let currentFriendName = "";
+
+    const friendListEl = document.getElementById("friend-list");
+    const chatBoxEl = document.getElementById("chat-box");
+    const chatHeaderEl = document.getElementById("chat-header");
+    const messageInput = document.getElementById("message-input");
+    const sendBtn = document.getElementById("send-btn");
+    const searchInput = document.getElementById("search-input");
+    let curentFriendId = null;
+    const token = localStorage.getItem("tokenRaw");
+    if (!token || !currentUserId) {
+      alert("Vui lòng đăng nhập lại!");
+      window.location.href = 'http://127.0.0.1:5500/Code_Fe/Front-end/facebook-clone-fe/sign_in.html';
+    }
+
+    // ====== SOCKET.IO INIT ======
+    if (!window.socket) {
+      window.socket = io("http://localhost:9092", {
+        transports: ["websocket"]
+      });
+
+      window.socket.on("connect", () => {
+        console.log("✅ Socket connected:", window.socket.id);
+      });
+
+      window.socket.on("message_response", async (msg) => {
+        if (curentFriendId != null) {
+          try {
+            const chatRes = await fetch(`http://localhost:8080/api/chats/${curentFriendId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+
+            if (!chatRes.ok) throw new Error("Không thể tải tin nhắn");
+
+            const messages = await chatRes.json();
+            messages.sort((a, b) => a.updateTime - b.updateTime);
+
+            // ❗ Xóa toàn bộ tin nhắn cũ trên UI
+            chatBoxEl.innerHTML = "";
+
+            // Gắn lại tin nhắn mới
+            messages.forEach(msg => appendMessage(msg));
+          } catch (err) {
+            console.error("Lỗi khi nhận message và reload:", err);
+          }
         }
-    ],
-    selectedChat: {
-        id: 3,
-        name: "Thằng đệ non",
-        status: "Đang hoạt động",
-        avatar: "../img/hinh-anh-cute-avatar-vo-tri-3.jpg",
-        messages: [
-            { id: 1, text: "Chịu", sender: "other", type: "received" },
-            { id: 2, text: "Nắng", sender: "other", type: "received" },
-            { id: 3, text: "Gạ kèo bóng đi", sender: "me", type: "sent" },
-            { id: 4, text: "Game đi", sender: "other", type: "received" },
-            { id: 5, text: "đá Thủy Lợi?", sender: "other", type: "received" },
-            { id: 6, text: "Ko có số", sender: "me", type: "sent" },
-            { id: 7, text: "Hết tiền đặt", sender: "me", type: "sent" }
-        ]
+      });
+
+      window.addEventListener("beforeunload", () => {
+        window.socket.disconnect();
+      });
     }
-};
-
-// Tải dữ liệu từ localStorage hoặc sử dụng dữ liệu mặc định
-let messengerData = JSON.parse(localStorage.getItem('messengerData')) || defaultMessengerData;
-
-// Biến để lưu đoạn chat hiện tại
-let currentChat = messengerData.chats.find(chat => chat.id === messengerData.selectedChat.id) || messengerData.chats[0];
-
-// Hàm để lưu dữ liệu vào localStorage
-function saveToLocalStorage() {
-    localStorage.setItem('messengerData', JSON.stringify(messengerData));
-}
-
-// Hàm để render danh sách đoạn chat
-function renderChatList() {
-    const chatList = document.getElementById('chat-list');
-    if (!chatList) return;
-    chatList.innerHTML = '';
-    messengerData.chats.forEach(chat => {
-        const chatItem = document.createElement('div');
-        chatItem.classList.add('chat-item');
-        chatItem.innerHTML = `
-            <img src="${chat.avatar}" alt="Avatar">
-            <div class="chat-info">
-                <div class="chat-name">${chat.name}</div>
-                <div class="chat-preview">${chat.preview}</div>
-            </div>
-            <div class="chat-time">${chat.time}</div>
-        `;
-        chatItem.addEventListener('click', () => updateSelectedChat(chat));
-        chatList.appendChild(chatItem);
-    });
-}
-
-// Hàm để cập nhật đoạn chat được chọn
-function updateSelectedChat(chat) {
-    currentChat = chat;
-    messengerData.selectedChat = {
-        id: chat.id,
-        name: chat.name,
-        status: chat.status || "Đang hoạt động",
-        avatar: chat.avatar,
-        messages: chat.messages
-    };
-
-    // Cập nhật chat header
-    const chatHeader = document.querySelector('.chat-header');
-    if (chatHeader) {
-        chatHeader.innerHTML = `
-            <img src="${chat.avatar}" alt="Avatar">
-            <div>
-                <div class="chat-name">${chat.name}</div>
-                <div class="status">${chat.status}</div>
-            </div>
-        `;
-    }
-
-    renderMessages(chat.messages);
-    saveToLocalStorage();
-}
-
-// Hàm để render tin nhắn
-function renderMessages(messages) {
-    const chatBody = document.getElementById('chat-body');
-    if (!chatBody) return;
-    chatBody.innerHTML = '';
-    messages.forEach(message => {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', `message-${message.type}`);
-        messageDiv.textContent = message.text;
-        chatBody.appendChild(messageDiv);
-    });
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-// Hàm để gửi tin nhắn
-function sendMessage() {
-    const messageInput = document.getElementById('message-input');
-    if (!messageInput) return;
-    const messageText = messageInput.value.trim();
-    if (!messageText) return;
-
-    const newMessage = {
-        id: currentChat.messages.length + 1,
-        text: messageText,
-        sender: 'me',
-        type: 'sent'
-    };
-
-    currentChat.messages.push(newMessage);
-    currentChat.preview = messageText;
-    currentChat.time = 'Vừa xong';
-
-    // Cập nhật messengerData.chats
-    const chatIndex = messengerData.chats.findIndex(c => c.id === currentChat.id);
-    if (chatIndex !== -1) {
-        messengerData.chats[chatIndex] = { ...currentChat };
-    }
-
-    messengerData.selectedChat.messages = currentChat.messages;
-
-    renderMessages(currentChat.messages);
-    renderChatList();
-    saveToLocalStorage();
-    messageInput.value = '';
-
-    setTimeout(receiveMessage, 2000);
-}
-
-// Hàm để mô phỏng tin nhắn nhận
-function receiveMessage() {
-    const newMessage = {
-        id: currentChat.messages.length + 1,
-        text: 'Được thôi, mình hiểu rồi!',
-        sender: 'other',
-        type: 'received'
-    };
-
-    currentChat.messages.push(newMessage);
-    currentChat.preview = newMessage.text;
-    currentChat.time = 'Vừa xong';
-
-    // Cập nhật messengerData.chats
-    const chatIndex = messengerData.chats.findIndex(c => c.id === currentChat.id);
-    if (chatIndex !== -1) {
-        messengerData.chats[chatIndex] = { ...currentChat };
-    }
-
-    messengerData.selectedChat.messages = currentChat.messages;
-
-    renderMessages(currentChat.messages);
-    renderChatList();
-    saveToLocalStorage();
-}
-
-// Hàm để thay đổi avatar
-function changeAvatar(event) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('../img/')) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            currentChat.avatar = e.target.result;
-            // Cập nhật messengerData.chats
-            const chatIndex = messengerData.chats.findIndex(c => c.id === currentChat.id);
-            if (chatIndex !== -1) {
-                messengerData.chats[chatIndex].avatar = currentChat.avatar;
-            }
-            messengerData.selectedChat.avatar = currentChat.avatar;
-            updateSelectedChat(currentChat);
-            renderChatList();
-            saveToLocalStorage();
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-// Khởi tạo ứng dụng
-window.onload = function() {
-    renderChatList();
-    updateSelectedChat(currentChat);
-
-    const sendButton = document.getElementById('send-button');
-    const messageInput = document.getElementById('message-input');
-    const avatarInput = document.getElementById('avatar-input');
-
-    if (sendButton) {
-        sendButton.addEventListener('click', sendMessage);
-    }
-    if (messageInput) {
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+    // ====== Search FRIEND LIST ======
+    async function searchFriends(keyword) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/friend/search/${encodeURIComponent(keyword)}`, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` }
         });
+
+        if (!response.ok) throw new Error("Không thể tìm kiếm bạn bè");
+
+        const friends = await response.json();
+
+        // Xóa danh sách cũ
+        friendListEl.innerHTML = '';
+
+        // Render lại danh sách mới
+        friends.forEach(friend => {
+          const item = document.createElement('div');
+          item.className = 'friend-item';
+          item.innerHTML = `
+        <img src="${friend.avatar}" alt="avatar" class="avatar">
+        <div class="name">${friend.fullName}</div>
+      `;
+          item.addEventListener('click', () => {
+            loadChat(friend.userId, friend.fullName);
+          });
+          friendListEl.appendChild(item);
+        });
+
+      } catch (error) {
+        console.error('Lỗi tìm kiếm:', error);
+        alert("Không thể tìm kiếm bạn bè.");
+      }
     }
-    if (avatarInput) {
-        avatarInput.addEventListener('change', changeAvatar);
+
+    // ====== LOAD FRIEND LIST ======
+    async function loadFriends() {
+      try {
+        const response = await fetch('http://localhost:8080/api/friend/list', {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!response.ok){
+            window.location.href = 'http://127.0.0.1:5500/Code_Fe/Front-end/facebook-clone-fe/sign_in.html';
+        };
+
+        const friends = await response.json();
+        friendListEl.innerHTML = '';
+
+        friends.forEach(friend => {
+          const item = document.createElement('div');
+          item.className = 'friend-item';
+          item.innerHTML = `
+          <img src="${friend.avatar}" alt="avatar" class="avatar">
+          <div class="name">${friend.fullName}</div>
+        `;
+          item.addEventListener('click', () => {
+            loadChat(friend.userId, friend.fullName);
+          });
+          friendListEl.appendChild(item);
+        });
+
+      } catch (error) {
+        console.error('Lỗi tải danh sách bạn bè:', error);
+        window.location.href = 'http://127.0.0.1:5500/Code_Fe/Front-end/facebook-clone-fe/sign_in.html';
+      }
     }
-};
+
+    // ====== LOAD CHAT ROOM ======
+    async function loadChat(friendId, friendName) {
+      currentFriendName = friendName;
+      chatHeaderEl.textContent = friendName;
+      chatBoxEl.innerHTML = "";
+      try {
+        const roomRes = await fetch(`http://localhost:8080/api/friend/${friendId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!roomRes.ok) throw new Error("Không thể lấy thông tin phòng chat");
+
+        const roomId = await roomRes.json();
+        currentRoomId = roomId;
+        curentFriendId = roomId;
+        joinRoom(roomId);
+
+        const chatRes = await fetch(`http://localhost:8080/api/chats/${roomId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!chatRes.ok) throw new Error("Không thể tải tin nhắn");
+
+        const messages = await chatRes.json();
+        messages.sort((a, b) => a.updateTime - b.updateTime);
+        messages.forEach(msg => appendMessage(msg));
+
+      } catch (err) {
+        console.error(err);
+        alert("Đã xảy ra lỗi khi tải phòng chat.");
+      }
+    }
+
+    // ====== JOIN ROOM ======
+    function joinRoom(roomId) {
+      window.socket.emit("join_chat_user", {
+        id: roomId,
+        userId: currentUserId
+      });
+    }
+
+    // ====== SEND MESSAGE ======
+    function sendMessage() {
+      const content = messageInput.value.trim();
+      if (!content || !currentRoomId) return;
+
+      const now = Date.now();
+      const data = {
+        id: currentRoomId,
+        userId: currentUserId,
+        content: content,
+        createTime: now,
+        updateTime: now
+      };
+
+      appendMessage(data); // Hiển thị trước
+      window.socket.emit("send_message_user", data); // Gửi đi
+      messageInput.value = "";
+    }
+
+    // ====== APPEND MESSAGE TO CHATBOX ======
+    function appendMessage(data) {
+      const div = document.createElement("div");
+      div.classList.add("message");
+      div.classList.add(data.userId == currentUserId ? "right" : "left");
+      div.textContent = data.content;
+      chatBoxEl.appendChild(div);
+      chatBoxEl.scrollTop = chatBoxEl.scrollHeight;
+    }
+
+    // ====== BIND EVENTS ======
+    sendBtn.onclick = sendMessage;
+    messageInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const keyword = searchInput.value.trim();
+        console.log(keyword)
+        if (keyword) {
+          searchFriends(keyword);
+        }
+      }
+    });
+    // ====== INIT ======
+    loadFriends();
