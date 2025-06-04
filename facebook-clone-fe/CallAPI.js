@@ -38,7 +38,7 @@ document.getElementById('reg').addEventListener('submit', async function (e) {
     }
 
     try {
-        const response = await fetch('https://2bda-116-96-47-67.ngrok-free.app/api/auth/register', {
+        const response = await fetch('http://localhost:8080/api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
