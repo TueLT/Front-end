@@ -1,4 +1,4 @@
-// const currentUserId = parseInt(localStorage.getItem("userId"));
+const currentUserId = parseInt(localStorage.getItem("userId"));
 let currentRoomId = null;
 let currentFriendName = "";
 
