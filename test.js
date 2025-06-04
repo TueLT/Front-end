@@ -287,6 +287,32 @@ function closeDropdownOnClickOutside(event) {
     }
 }
 
+// Upload files to the backend API
+async function uploadFiles(files) {
+    const formData = new FormData();
+    files.forEach(file => {
+        formData.append('file', file);
+    });
+
+    try {
+        const response = await fetch('http://localhost:8080/api/files/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Upload thất bại');
+        }
+
+        const fileUrls = await response.json();
+        return fileUrls;
+    } catch (error) {
+        console.error('Lỗi khi upload file:', error);
+        alert('Không thể upload ảnh. Vui lòng thử lại.');
+        return [];
+    }
+}
+
 // Initial Render and Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
     renderStories();

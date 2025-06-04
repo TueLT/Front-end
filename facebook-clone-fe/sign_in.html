@@ -21,17 +21,17 @@
             <div class="login__right">
                 <div class="login__form-wrapper">
                     <div class="login-form">
-                        <form action="./login" method="POST" class="login-form__form">
+                        <form id="login-form" class="login-form__form">
                             <div class="login-form__field">
-                                <input class="login-form__input login-form__input--email" type="text" name="email"
-                                    id="email" placeholder="Email hoặc số điện thoại">
+                                <input class="login-form__input login-form__input--email" type="text" name="username"
+                                    id="username" placeholder="Email hoặc số điện thoại">
                             </div>
                             <div class="login-form__field">
                                 <input class="login-form__input login-form__input--password" type="password" name="pass"
                                     id="pass" placeholder="Mật khẩu">
                             </div>
                             <div class="login-form__submit-container">
-                                <button class="login-form__submit" name="login" type="submit">Đăng nhập</button>
+                                <button class="login-form__submit" type="submit">Đăng nhập</button>
                             </div>
                             <div class="login-form__forgot-password">
                                 <a href="./recover" class="login-form__link">Quên mật khẩu?</a>
@@ -92,6 +92,52 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Ngăn form submit mặc định
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('pass').value.trim();
+
+            if (!username || !password) {
+                alert('Vui lòng nhập email và mật khẩu.');
+                return;
+            }
+
+            const loginData = {
+                username: username,
+                password: password,
+                fcm_token: "tuetri" // Fix cứng fcm_token
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Đăng nhập thất bại');
+                }
+
+                const result = await response.json();
+                // Lưu accessToken vào localStorage
+                localStorage.setItem('accessToken', result.accessToken);
+                // console.log('Đăng nhập thành công:', result);
+                
+                // Chuyển hướng đến trang chính
+                window.location.href = 'http://127.0.0.1:5500/front-end/home.html';
+            } catch (error) {
+                console.error('Lỗi đăng nhập:', error);
+                alert(error.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.');
+            }
+        });
+    </script>
 </body>
 
 </html>
