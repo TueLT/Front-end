@@ -183,12 +183,8 @@
         <div class="sidebar">
             <h2>Bạn bè</h2>
             <ul>
-                <li><i>🏠</i> Trang chủ</li>
-                <li><i>👥</i> Lời mời kết bạn</li>
-                <li><i>💡</i> Gợi ý</li>
-                <li class="active"><i>👤</i> Tất cả bạn bè</li>
-                <li><i>🎂</i> Sinh nhật</li>
-                <li><i>📋</i> Danh sách tùy chỉnh</li>
+                <li><a href="./banbe.html">👥 Lời mời kết bạn</a></li>
+                <li class="active"><a href="./TatCaBanBe.html">👤 Tất cả bạn bè</a></li>
             </ul>
         </div>
 
@@ -276,7 +272,7 @@
                         <div class="friend-mutual">0 bạn chung</div> <!-- Có thể thay bằng dữ liệu thực tế nếu API có -->
                         <div class="friend-actions">
                             <button class="friend-btn message-btn" onclick="handleMessage(this)">Nhắn tin</button>
-                            <button class="friend-btn remove-btn" onclick="handleRemoveFriend(this)">Hủy kết bạn</button>
+                            <button class="friend-btn remove-btn" onclick="handleRemoveFriend(this)" data-id="${friend.userId}">Hủy kết bạn</button>
                         </div>
                     </div>
                 `;
@@ -294,23 +290,24 @@
         function handleRemoveFriend(button) {
             const friendItem = button.closest('.friend-item');
             const friendName = friendItem.querySelector('.friend-name').textContent;
-
+            const friendId = button.getAttribute('data-id'); // Lấy friendId từ data attribute
+            alert(`Hủy kết bạn với ${friendId}`);
             if (confirm(`Bạn có chắc muốn hủy kết bạn với ${friendName}?`)) {
                 friendItem.remove();
                 alert(`Đã hủy kết bạn với ${friendName}`);
 
-                // Gọi API để xóa bạn bè ở đây nếu cần
-                // deleteFriend(friendId);
+                // Gọi API để xóa bạn bè
+                deleteFriend(friendId);
             }
         }
 
         // Render friends list on page load
         window.onload = renderFriendsList;
 
-        // Hàm gọi API xóa bạn bè (nếu cần)
+        // Hàm gọi API xóa bạn bè 
         async function deleteFriend(friendId) {
-            const bearerToken = 'YOUR_BEARER_TOKEN';
-            const apiUrl = `YOUR_API_ENDPOINT/${friendId}`;
+            const bearerToken = localStorage.getItem('accessToken');
+            const apiUrl = `http://localhost:8080/api/friend/remove/${friendId}`; // Sửa endpoint cho phù hợp
 
             try {
                 const response = await fetch(apiUrl, {
@@ -325,9 +322,12 @@
                     throw new Error('Failed to delete friend');
                 }
 
-                return await response.json();
+                const result = await response;
+                console.log('Delete friend success:', result);
+                return result;
             } catch (error) {
                 console.error('Error deleting friend:', error);
+                alert('Lỗi khi hủy kết bạn: ' + error.message);
                 return null;
             }
         }
