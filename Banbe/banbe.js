@@ -61,7 +61,7 @@ async function renderFriendRequests() {
     friendRequestsContainer.innerHTML = ""; // Clear existing content
 
     // Show loading state
-    friendRequestsContainer.innerHTML = '<p>Đang tải lời mời kết bạn...</p>';
+    // friendRequestsContainer.innerHTML = '<p>Đang tải lời mời kết bạn...</p>';
 
     // Get data from API
     const invitationsData = await fetchFriendInvitations();
