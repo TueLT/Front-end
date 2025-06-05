@@ -7,6 +7,85 @@
     <link rel="stylesheet" href="Tcn.css">
 </head>
 <body>
+    <style>
+     .edit-profile-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .edit-profile-modal-overlay.active {
+            display: flex;
+        }
+        .edit-profile-modal {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .edit-profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .edit-profile-form label {
+            font-weight: bold;
+        }
+        .edit-profile-form input,
+        .edit-profile-form select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .edit-profile-form input[readonly] {
+            background: #f0f0f0;
+        }
+        .edit-profile-form button {
+            padding: 10px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .edit-profile-form button:hover {
+            background: #165db7;
+        }
+        .edit-profile-form button.cancel {
+            background: #e4e6eb;
+            color: black;
+        }
+        .edit-profile-form button.cancel:hover {
+            background: #d8dade;
+        }
+    </style>
     <header class="header">
         <div class="header-left">
             <a href = "../home.html"><img src="../img/logo.png" alt="Facebook Logo" class="logo"></a>
@@ -100,9 +179,9 @@
         <div class="profile-info">
             <h1>Lương Trí Tuệ</h1>
             <p>376 người bạn</p>
-            <div class="buttons">
-                <button>Thêm vào tin</button>
-                <button class="secondary">Chỉnh sửa trang cá nhân</button>
+            <div class="profile-actions">
+                        <button>Thêm vào tin</button>
+                        <button class="edit-profile-btn">Chỉnh sửa trang cá nhân</button>
             </div>
         </div>
     </div>

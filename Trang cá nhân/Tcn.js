@@ -1,7 +1,6 @@
-// Profile data
 const profileData = {
     username: "Lương Trí Tuệ",
-    avatar: "https://via.placeholder.com/150?text=Avatar", // Default avatar
+    avatar: "https://via.placeholder.com/150?text=Avatar",
     friends: 376,
     bio: "Tôi là một sinh viên IT đam mê công nghệ và thích khám phá những điều mới mẻ. Yêu âm nhạc, du lịch và trò chơi điện tử!",
     introItems: [
@@ -10,12 +9,154 @@ const profileData = {
         { emoji: "🏠", text: "Sống tại Hưng Yên" },
         { emoji: "📍", text: "Đến từ Hưng Yên" },
         { emoji: "📡", text: "Có 27 người theo dõi" }
-    ]
+    ],
+    user_id: null,
+    email: null,
+    sex: null
 };
 
 // Load avatar from localStorage if available
 if (localStorage.getItem("userAvatar")) {
     profileData.avatar = localStorage.getItem("userAvatar");
+}
+
+// Fetch profile data from API using GET method with Access Token
+async function fetchProfileData() {
+    console.log("Bắt đầu fetchProfileData");
+    try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            throw new Error("Không tìm thấy Access Token. Vui lòng đăng nhập lại!");
+        }
+
+        const response = await fetch("http://localhost:8080/api/profile", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Không thể lấy dữ liệu từ API: ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log("Dữ liệu từ API:", data);
+        
+        // Update profileData with API data, with null checks
+        profileData.user_id = data.user_id ?? null;
+        profileData.email = data.email ?? "";
+        profileData.username = (data.lastName && data.firstName) ? `${data.lastName} ${data.firstName}` : profileData.username;
+        profileData.avatar = data.avatar ?? "";
+        profileData.sex = data.sex ?? null;
+        
+        // Save avatar to localStorage if provided by API
+        if (data.avatar) {
+            localStorage.setItem("userAvatar", data.avatar);
+        }
+        
+        // Populate edit profile form
+        populateEditProfileForm();
+    } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+        alert(`Lỗi: ${error.message}`);
+        populateEditProfileForm(); // Open modal with current data
+    }
+}
+
+// Populate edit profile form with profileData
+function populateEditProfileForm() {
+    console.log("Bắt đầu populateEditProfileForm");
+    // Open modal first to ensure elements are in DOM
+    openEditProfileModal();
+
+    // Get elements and check for null
+    const userIdInput = document.getElementById("edit-user-id");
+    const emailInput = document.getElementById("edit-email");
+    const firstNameInput = document.getElementById("edit-first-name");
+    const lastNameInput = document.getElementById("edit-last-name");
+    const avatarInput = document.getElementById("edit-avatar");
+    const sexSelect = document.getElementById("edit-sex");
+
+    // Check if elements exist before setting values
+    if (userIdInput) userIdInput.value = profileData.user_id || "";
+    if (emailInput) emailInput.value = profileData.email || "";
+    const username = typeof profileData.username === "string" ? profileData.username : "";
+    if (firstNameInput) firstNameInput.value = username.split(" ").pop() || "";
+    if (lastNameInput) lastNameInput.value = username.split(" ").slice(0, -1).join(" ") || "";
+    if (avatarInput) avatarInput.value = profileData.avatar || "";
+    if (sexSelect) sexSelect.value = profileData.sex || "";
+}
+
+// Open edit profile modal
+function openEditProfileModal() {
+    console.log("Bắt đầu openEditProfileModal");
+    const modal = document.getElementById("editProfileModalOverlay");
+    if (modal) {
+        modal.classList.add("active");
+        console.log("Modal đã được mở");
+    } else {
+        console.error("Không tìm thấy modal chỉnh sửa hồ sơ!");
+    }
+}
+
+// Close edit profile modal
+function closeEditProfileModal() {
+    console.log("Bắt đầu closeEditProfileModal");
+    const modal = document.getElementById("editProfileModalOverlay");
+    if (modal) {
+        modal.classList.remove("active");
+        console.log("Modal đã được đóng");
+    }
+}
+
+// Save profile changes (client-side only)
+function saveProfileChanges() {
+    console.log("Bắt đầu saveProfileChanges");
+    const firstNameInput = document.getElementById("edit-first-name");
+    const lastNameInput = document.getElementById("edit-last-name");
+    const emailInput = document.getElementById("edit-email");
+    const avatarInput = document.getElementById("edit-avatar");
+    const sexSelect = document.getElementById("edit-sex");
+
+    if (!firstNameInput || !lastNameInput || !emailInput) {
+        alert("Không thể lưu thay đổi do không tìm thấy các trường nhập liệu!");
+        return;
+    }
+
+    const firstName = firstNameInput.value.trim();
+    const lastName = lastNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const avatar = avatarInput ? avatarInput.value.trim() : "";
+    const sex = sexSelect ? sexSelect.value : "";
+
+    if (!firstName || !lastName || !email) {
+        alert("Vui lòng điền đầy đủ họ, tên và email!");
+        return;
+    }
+
+    // Update profileData
+    profileData.email = email;
+    profileData.username = `${lastName} ${firstName}`;
+    profileData.avatar = avatar || profileData.avatar;
+    profileData.sex = sex;
+    
+    // Save avatar to localStorage
+    if (avatar) {
+        localStorage.setItem("userAvatar", avatar);
+    }
+    
+    // Re-render profile and intro sections
+    renderProfileSection();
+    renderIntroSection();
+    updateAllAvatars();
+    
+    closeEditProfileModal();
+}
+
+// Handle edit profile button click
+function handleEditProfile() {
+    console.log("Nút chỉnh sửa trang cá nhân được nhấn");
+    fetchProfileData();
 }
 
 // Post data and generation logic
@@ -54,14 +195,14 @@ let postsData = [
 
 // Helper function to format the current date and time
 function formatCurrentDateTime() {
-    const now = new Date("2025-06-01T21:32:00+07:00"); // Updated system-provided date and time
+    const now = new Date("2025-06-05T11:23:00+07:00");
     const day = now.getDate();
-    const month = now.getMonth() + 1; // Months are 0-based in JS
+    const month = now.getMonth() + 1;
     const year = now.getFullYear();
     let hours = now.getHours();
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12; // Convert to 12-hour format
+    hours = hours % 12 || 12;
     return `${day} tháng ${month}, ${year} lúc ${hours}:${minutes} ${ampm}`;
 }
 
@@ -86,7 +227,7 @@ function createPost(post, index) {
 
     const profilePic = document.createElement("div");
     profilePic.className = "profile-pic-small";
-    setAvatar(profilePic); // Set avatar dynamically
+    setAvatar(profilePic);
     postHeader.appendChild(profilePic);
 
     const headerInfo = document.createElement("div");
@@ -98,7 +239,6 @@ function createPost(post, index) {
     const postContent = document.createElement("div");
     postContent.className = "post-content";
 
-    // If this is a shared post, add the shared header and the original post content
     if (post.isShared) {
         const sharedHeader = document.createElement("p");
         sharedHeader.className = "shared-header";
@@ -140,11 +280,9 @@ function createPost(post, index) {
     postDiv.appendChild(postHeader);
     postDiv.appendChild(postContent);
 
-    // Add post actions (like, comment, share)
     const postActions = document.createElement("div");
     postActions.className = "post-actions";
 
-    // Action buttons (Like, Comment, Share)
     const actionButtons = document.createElement("div");
     actionButtons.className = "action-buttons";
 
@@ -174,7 +312,6 @@ function createPost(post, index) {
 
     postActions.appendChild(actionButtons);
 
-    // Like section
     const likeSection = document.createElement("div");
     likeSection.className = "like-section";
 
@@ -185,7 +322,6 @@ function createPost(post, index) {
 
     postActions.appendChild(likeSection);
 
-    // Comment section
     const commentSection = document.createElement("div");
     commentSection.className = "comment-section";
 
@@ -204,14 +340,12 @@ function createPost(post, index) {
     commentSubmitBtn.onclick = () => submitComment(index);
     commentInputDiv.appendChild(commentSubmitBtn);
 
-    // Enable/disable comment button based on input
     commentInput.addEventListener("input", () => {
         commentSubmitBtn.disabled = commentInput.value.trim() === "";
     });
 
     commentSection.appendChild(commentInputDiv);
 
-    // Comment list
     const commentList = document.createElement("div");
     commentList.className = "comment-list";
     post.comments.forEach(comment => {
@@ -232,7 +366,7 @@ function createCommentElement(comment) {
 
     const commentProfilePic = document.createElement("div");
     commentProfilePic.className = "profile-pic-small";
-    setAvatar(commentProfilePic); // Set avatar dynamically
+    setAvatar(commentProfilePic);
     commentDiv.appendChild(commentProfilePic);
 
     const commentContent = document.createElement("div");
@@ -261,12 +395,10 @@ function renderPosts() {
     const postsSection = document.querySelector(".posts-section");
     if (!postsSection) return;
 
-    // Preserve the create-post section
     const createPostSection = postsSection.querySelector(".create-post");
     postsSection.innerHTML = "";
     postsSection.appendChild(createPostSection);
 
-    // Render posts
     postsData.forEach((post, index) => {
         const postElement = createPost(post, index);
         postsSection.appendChild(postElement);
@@ -306,7 +438,7 @@ function sharePost(index) {
         likes: 0,
         liked: false,
         comments: [],
-        privacy: "public", // Shared posts are public by default
+        privacy: "public",
         isShared: true,
         sharer: profileData.username,
         originalPoster: originalPost.username,
@@ -314,54 +446,56 @@ function sharePost(index) {
         originalDate: originalPost.date
     };
 
-    postsData.unshift(sharedPost); // Add shared post to the top
+    postsData.unshift(sharedPost);
     renderPosts();
 
-    // Scroll to the top to view the shared post
     const postsSection = document.querySelector(".posts-section");
     postsSection.scrollIntoView({ behavior: "smooth" });
 }
 
 function submitPost() {
-    const postContent = document.getElementById("postContent").value.trim();
+    const postContent = document.getElementById("postContent");
     if (!postContent) return;
 
-    const selectedPrivacy = document.getElementById("selectedPrivacy").getAttribute("data-value");
+    const content = postContent.value.trim();
+    if (!content) return;
+
+    const selectedPrivacy = document.getElementById("selectedPrivacy");
+    if (!selectedPrivacy) return;
+
+    const privacy = selectedPrivacy.getAttribute("data-value");
     const newPost = {
         username: profileData.username,
         tag: "Status",
         date: formatCurrentDateTime(),
-        content: postContent,
+        content: content,
         image: null,
         likes: 0,
         liked: false,
         comments: [],
-        privacy: selectedPrivacy
+        privacy: privacy
     };
 
-    postsData.unshift(newPost); // Add new post to the top
+    postsData.unshift(newPost);
     renderPosts();
     closePostModal();
 
-    // Scroll to the top of the posts section to view the new post
     const postsSection = document.querySelector(".posts-section");
-    postsSection.scrollIntoView({ behavior: "smooth" });
+    if (postsSection) {
+        postsSection.scrollIntoView({ behavior: "smooth" });
+    }
 }
 
-// Function to render the intro section
 function renderIntroSection() {
     const introSection = document.getElementById("introSection");
     if (!introSection) return;
 
-    // Clear existing content
     introSection.innerHTML = "";
 
-    // Add heading
     const heading = document.createElement("h2");
     heading.textContent = "Giới thiệu";
     introSection.appendChild(heading);
 
-    // Add bio
     if (profileData.bio) {
         const bio = document.createElement("p");
         bio.className = "bio";
@@ -369,107 +503,109 @@ function renderIntroSection() {
         introSection.appendChild(bio);
     }
 
-    // Add "Chỉnh sửa tiểu sử" button (since bio is now present)
     const bioButton = document.createElement("button");
     bioButton.textContent = "Chỉnh sửa tiểu sử";
     introSection.appendChild(bioButton);
 
-    // Add intro items
     profileData.introItems.forEach(item => {
         const p = document.createElement("p");
         p.textContent = `${item.emoji} ${item.text}`;
         introSection.appendChild(p);
     });
+
+    if (profileData.sex) {
+        const sexItem = document.createElement("p");
+        sexItem.textContent = `🚻 Giới tính: ${profileData.sex}`;
+        introSection.appendChild(sexItem);
+    }
 }
 
-// Function to render the profile section
 function renderProfileSection() {
     const profilePic = document.querySelector(".profile-section .profile-pic");
     if (profilePic) {
-        setAvatar(profilePic); // Set avatar dynamically
+        setAvatar(profilePic);
     }
 
     const profileInfo = document.querySelector(".profile-section .profile-info");
     if (profileInfo) {
         const username = profileInfo.querySelector("h1");
-        username.textContent = profileData.username;
+        if (username) {
+            username.textContent = profileData.username;
+        }
 
         const friends = profileInfo.querySelector("p");
-        friends.textContent = `${profileData.friends} người bạn`;
+        if (friends) {
+            friends.textContent = `${profileData.friends} người bạn`;
+        }
     }
 }
 
-// Logic chuyển đổi tab
 function setupTabSwitching() {
     const tabs = document.querySelectorAll(".tab-link");
 
     tabs.forEach(tab => {
         tab.addEventListener("click", (e) => {
-            e.preventDefault(); // Ngăn hành vi mặc định của thẻ a
-
-            // Loại bỏ lớp 'active' khỏi tất cả các tab
+            e.preventDefault();
             tabs.forEach(t => t.classList.remove("active"));
-
-            // Thêm lớp 'active' vào tab được nhấp
             tab.classList.add("active");
         });
     });
 }
 
-// Handle click on "Bạn đang nghĩ gì?" to open modal
 function openPostModal() {
     const modalOverlay = document.getElementById("postModalOverlay");
+    if (!modalOverlay) return;
+
     modalOverlay.classList.add("active");
 
-    // Focus on the textarea when modal opens
     const textarea = modalOverlay.querySelector("textarea");
-    textarea.focus();
+    if (textarea) {
+        textarea.focus();
+    }
 
-    // Set avatar in the modal
     const modalProfilePic = modalOverlay.querySelector(".modal-profile .profile-pic-small");
     if (modalProfilePic) {
         setAvatar(modalProfilePic);
     }
 }
 
-// Handle closing the modal
 function closePostModal() {
     const modalOverlay = document.getElementById("postModalOverlay");
+    if (!modalOverlay) return;
+
     modalOverlay.classList.remove("active");
 
-    // Reset textarea and button state
     const textarea = modalOverlay.querySelector("textarea");
     const postBtn = modalOverlay.querySelector(".post-btn");
-    textarea.value = "";
-    postBtn.disabled = true;
+    if (textarea) textarea.value = "";
+    if (postBtn) postBtn.disabled = true;
 
-    // Close privacy dropdown if open
     const privacyDropdown = document.getElementById("privacyDropdown");
     if (privacyDropdown) {
         privacyDropdown.classList.remove("active");
     }
 }
 
-// Toggle privacy dropdown
 function togglePrivacyDropdown() {
     const privacyDropdown = document.getElementById("privacyDropdown");
-    privacyDropdown.classList.toggle("active");
+    if (privacyDropdown) {
+        privacyDropdown.classList.toggle("active");
+    }
 }
 
-// Select privacy option
 function selectPrivacy(displayText, value) {
     const selectedPrivacy = document.getElementById("selectedPrivacy");
-    selectedPrivacy.textContent = displayText;
+    if (selectedPrivacy) {
+        selectedPrivacy.textContent = displayText;
+        selectedPrivacy.setAttribute("data-value", value);
+    }
 
-    // Store the selected value
-    selectedPrivacy.setAttribute("data-value", value);
-
-    // Close the dropdown
     const privacyDropdown = document.getElementById("privacyDropdown");
-    privacyDropdown.classList.remove("active");
+    if (privacyDropdown) {
+        privacyDropdown.classList.remove("active");
+    }
 }
 
-// Handle avatar upload
 function setupAvatarUpload() {
     const avatarUploadInput = document.getElementById("avatar-upload");
     if (avatarUploadInput) {
@@ -478,9 +614,9 @@ function setupAvatarUpload() {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    profileData.avatar = e.target.result; // Update avatar in profileData
-                    localStorage.setItem("userAvatar", profileData.avatar); // Save to localStorage
-                    updateAllAvatars(); // Update all avatars on the page
+                    profileData.avatar = e.target.result;
+                    localStorage.setItem("userAvatar", profileData.avatar);
+                    updateAllAvatars();
                 };
                 reader.readAsDataURL(file);
             }
@@ -488,24 +624,20 @@ function setupAvatarUpload() {
     }
 }
 
-// Thực thi khi trang tải
 document.addEventListener("DOMContentLoaded", () => {
-    // Render profile section
     renderProfileSection();
-
-    // Tạo bài viết
     renderPosts();
-
-    // Thiết lập chuyển đổi tab
     setupTabSwitching();
-
-    // Render intro section
     renderIntroSection();
-
-    // Setup avatar upload
     setupAvatarUpload();
 
-    // Enable "Đăng" button when textarea has content
+    const editProfileBtn = document.querySelector(".profile-section .edit-profile-btn");
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener("click", handleEditProfile);
+    } else {
+        console.error("Không tìm thấy nút chỉnh sửa trang cá nhân!");
+    }
+
     const textarea = document.querySelector(".post-modal textarea");
     const postBtn = document.querySelector(".post-btn");
 
@@ -515,7 +647,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Close modal and dropdown when clicking outside
     const modalOverlay = document.getElementById("postModalOverlay");
     if (modalOverlay) {
         modalOverlay.addEventListener("click", (e) => {
@@ -525,7 +656,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Close privacy dropdown when clicking outside
+    const editModalOverlay = document.getElementById("editProfileModalOverlay");
+    if (editModalOverlay) {
+        editModalOverlay.addEventListener("click", (e) => {
+            if (e.target === editModalOverlay) {
+                closeEditProfileModal();
+            }
+        });
+    }
+
     document.addEventListener("click", (e) => {
         const privacyDropdown = document.getElementById("privacyDropdown");
         const privacySettings = document.querySelector(".privacy-settings");
