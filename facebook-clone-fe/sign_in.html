@@ -129,10 +129,11 @@
                 const result = await response.json();
                 // Lưu accessToken vào localStorage
                 localStorage.setItem('accessToken', result.accessToken);
+                localStorage.setItem('userId', result.userId);
                 // console.log('Đăng nhập thành công:', result);
 
                 // Chuyển hướng đến trang chính
-                window.location.href = 'http://127.0.0.1:5500/home.html';
+                window.location.href = 'http://127.0.0.1:5500/front-end/home.html';
             } catch (error) {
                 console.error('Lỗi đăng nhập:', error);
                 alert(error.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.');
