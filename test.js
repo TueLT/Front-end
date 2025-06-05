@@ -69,7 +69,23 @@ const postsData = [{
     liked: false,
 },
 ];
-
+const profileData = {
+    user_id: null,
+    email: "",
+    firstName: "",
+    lastName: "",
+    sex: "",
+    avatar: "https://via.placeholder.com/150?text=Avatar",
+    friends: 376,
+    bio: "Tôi là một sinh viên IT đam mê công nghệ và thích khám phá những điều mới mẻ. Yêu âm nhạc, du lịch và trò chơi điện tử!",
+    introItems: [
+        { emoji: "🎓", text: "Học Information of Technology (IT) tại Học viện Công nghệ Bưu chính Viễn thông cơ sở tại TP. Hà Nội" },
+        { emoji: "🎓", text: "Đã học tại Trường THPT Chuỷên Hùng Vương" },
+        { emoji: "🏠", text: "Sống tại Hưng Yên" },
+        { emoji: "📍", text: "Đến từ Hưng Yên" },
+        { emoji: "📡", text: "Có 27 người theo dõi" }
+    ]
+};
 // Render Stories
 function renderStories() {
     const storiesContainer = document.getElementById("stories-container");
@@ -253,11 +269,75 @@ function createPost(post) {
 }
 
 // Render Posts
-function renderPosts() {
+async function fetchPosts() {
+    try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            throw new Error("Không tìm thấy Access Token. Vui lòng đăng nhập lại!");
+        }
+
+        const response = await fetch("http://localhost:8080/api/posts", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Không thể lấy bài viết từ API: ${response.statusText}`);
+        }
+
+        const apiPosts = await response.json();
+        return apiPosts.map(transformPostData);
+    } catch (error) {
+        console.error("Lỗi khi lấy bài viết:", error);
+        alert(`Lỗi: ${error.message}`);
+        return [];
+    }
+}
+
+// Hàm transformPostData: Chuyển đổi dữ liệu bài viết từ API sang định dạng mong muốn
+function transformPostData(apiPost) {
+    const timestamp = new Date(parseInt(apiPost.createTime)).toLocaleString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    const images = apiPost.images ? apiPost.images.split(',') : [];
+    const tags = apiPost.tags ? apiPost.tags.split(',') : [];
+    const liked = apiPost.is_like === "true";
+    const likes = parseInt(apiPost.count_like) || 0;
+
+    return {
+        id: apiPost.postId,
+        author: profileData.firstName && profileData.lastName ? `${profileData.lastName} ${profileData.firstName}` : "Người dùng",
+        timestamp: timestamp,
+        content: apiPost.caption || "",
+        images: images,
+        likes: likes,
+        liked: liked,
+        tags: tags,
+        comments: 0, // API không cung cấp số lượng bình luận, mặc định là 0
+        commentsList: [], // API không cung cấp danh sách bình luận
+        shares: 0 // API không cung cấp số lượng chia sẻ
+    };
+}
+
+// Hàm renderPosts: Render các bài viết từ API
+async function renderPosts() {
     const postsContainer = document.getElementById("posts-container");
-    postsContainer.innerHTML = '';
-    postsData.forEach(post => {
-        const postElement = createPost(post);
+    if (!postsContainer) {
+        console.error("Không tìm thấy posts-container!");
+        return;
+    }
+
+    postsContainer.innerHTML = ''; // Xóa nội dung cũ
+    const posts = await fetchPosts(); // Lấy bài viết từ API
+    posts.forEach(post => {
+        const postElement = createPost(post); // Giả sử createPost đã được định nghĩa
         postsContainer.appendChild(postElement);
     });
 }
@@ -353,27 +433,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Handle post submission
-    postBtn.addEventListener('click', () => {
-        if (postContent.value.trim() !== '') {
+    postBtn.addEventListener('click', async () => {
+        const content = postContent.value.trim();
+        if (content === '') return; // Kiểm tra nếu nội dung rỗng thì không làm gì
+
+        // Thu thập dữ liệu từ form
+        const postData = {
+            tags: ["pikachu", "electric", "cute"], // Có thể thay bằng input từ người dùng
+            images: [
+                "https://firebasestorage.googleapis.com/v0/b/storage-image-80802.appspot.com/o/b509c6df-d844-476d-9e60-212fb8555511.JPG?alt=media&token=22bf4bc3-cd5d-49bd-a1ac-f071874128f1"],
+
+            caption: content // Nội dung bài viết từ postContent
+        };
+
+        try {
+            // Lấy accessToken từ localStorage (giả sử bạn đã lưu token sau khi đăng nhập)
+            const accessToken = localStorage.getItem("accessToken");
+            if (!accessToken) {
+                throw new Error("Không tìm thấy Access Token. Vui lòng đăng nhập lại!");
+            }
+
+            // Gửi yêu cầu POST đến API
+            const response = await fetch("http://localhost:8080/api/posts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}` // Thêm token vào header
+                },
+                body: JSON.stringify(postData) // Chuyển dữ liệu thành JSON
+            });
+
+            // Kiểm tra nếu yêu cầu không thành công
+            if (!response.ok) {
+                throw new Error(`Không thể đăng bài viết: ${response.statusText}`);
+            }
+
+            // Lấy dữ liệu bài viết mới từ server
+            const newPostFromServer = await response.json();
+
+            // Tạo đối tượng bài viết mới để thêm vào postsData
             const newPost = {
-                id: postsData.length + 1,
-                groupName: "Lương Tri Tuệ",
-                author: "Lương Tri Tuệ",
+                id: newPostFromServer.id || postsData.length + 1, // Dùng id từ server nếu có
+                groupName: "Lương Tri Tuệ", // Có thể cập nhật từ server nếu cần
+                author: "Lương Tri Tuệ", // Có thể cập nhật từ server
                 timestamp: "Vừa xong",
-                content: postContent.value,
-                profileImage: "img/profile.png",
-                images: [],
+                content: newPostFromServer.caption, // Nội dung từ server
+                profileImage: "img/profile.png", // Cập nhật nếu server trả về
+                images: newPostFromServer.images || [], // Hình ảnh từ server
                 likes: 0,
                 comments: 0,
                 commentsList: [],
                 shares: 0,
                 liked: false,
             };
+
+            // Thêm bài viết mới vào danh sách và render lại giao diện
             postsData.unshift(newPost);
             renderPosts();
             postModal.classList.remove('active');
             postContent.value = '';
             postBtn.classList.remove('active');
+        } catch (error) {
+            console.error("Lỗi khi đăng bài viết:", error);
+            alert(`Lỗi: ${error.message}`);
         }
     });
 
