@@ -364,8 +364,11 @@ function transformPostData(apiPost) {
         hour: '2-digit',
         minute: '2-digit'
     });
-    const images = apiPost.images ? apiPost.images.split(',') : [];
-    const tags = apiPost.tags ? apiPost.tags.split(',') : [];
+console.log(apiPost.tags);
+
+    
+    const images = apiPost.images ;
+    const tags = apiPost.tags ;
     const liked = apiPost.is_like === "true";
     const likes = parseInt(apiPost.count_like) || 0;
 

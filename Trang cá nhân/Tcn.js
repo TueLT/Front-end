@@ -20,6 +20,45 @@ if (localStorage.getItem("userAvatar")) {
     profileData.avatar = localStorage.getItem("userAvatar");
 }
 
+// Load posts from localStorage if available
+let postsData = JSON.parse(localStorage.getItem("postsData")) || [
+    {
+        username: "Lương Trí Tuệ",
+        tag: "Liên Quân Mobile",
+        date: "30 tháng 7, 2024",
+        content: "Cùng bạn tham gia",
+        image: "https://nguoinoitieng.tv/images/nnt/106/0/bjbs.jpg",
+        likes: 0,
+        liked: false,
+        comments: []
+    },
+    {
+        username: "Lương Trí Tuệ",
+        tag: "Học tập",
+        date: "25 tháng 6, 2024",
+        content: "Hôm nay vừa hoàn thành bài thuyết trình về AI, cảm giác thật tuyệt!",
+        image: "https://pcmarket.vn/media/news/1203_vavab9.png",
+        likes: 0,
+        liked: false,
+        comments: []
+    },
+    {
+        username: "Lương Trí Tuệ",
+        tag: "Du lịch",
+        date: "15 tháng 5, 2024",
+        content: "Chuyến đi Đà Lạt thật đáng nhớ, hoa cẩm tú cầu đẹp mê ly!",
+        image: "https://technews.hacom.vn/wp-content/uploads/2020/06/valorant-agents-players.jpg",
+        likes: 0,
+        liked: false,
+        comments: []
+    }
+];
+
+// Save posts to localStorage
+function savePostsToLocalStorage() {
+    localStorage.setItem("postsData", JSON.stringify(postsData));
+}
+
 // Fetch profile data from API using GET method with Access Token
 async function fetchProfileData() {
     console.log("Bắt đầu fetchProfileData");
@@ -160,38 +199,7 @@ function handleEditProfile() {
 }
 
 // Post data and generation logic
-let postsData = [
-    {
-        username: "Lương Trí Tuệ",
-        tag: "Liên Quân Mobile",
-        date: "30 tháng 7, 2024",
-        content: "Cùng bạn tham gia",
-        image: "https://nguoinoitieng.tv/images/nnt/106/0/bjbs.jpg",
-        likes: 0,
-        liked: false,
-        comments: []
-    },
-    {
-        username: "Lương Trí Tuệ",
-        tag: "Học tập",
-        date: "25 tháng 6, 2024",
-        content: "Hôm nay vừa hoàn thành bài thuyết trình về AI, cảm giác thật tuyệt!",
-        image: "https://pcmarket.vn/media/news/1203_vavab9.png",
-        likes: 0,
-        liked: false,
-        comments: []
-    },
-    {
-        username: "Lương Trí Tuệ",
-        tag: "Du lịch",
-        date: "15 tháng 5, 2024",
-        content: "Chuyến đi Đà Lạt thật đáng nhớ, hoa cẩm tú cầu đẹp mê ly!",
-        image: "https://technews.hacom.vn/wp-content/uploads/2020/06/valorant-agents-players.jpg",
-        likes: 0,
-        liked: false,
-        comments: []
-    }
-];
+// (postsData initialization moved to top with localStorage loading)
 
 // Helper function to format the current date and time
 function formatCurrentDateTime() {
@@ -408,6 +416,7 @@ function renderPosts() {
 function toggleLike(index) {
     postsData[index].liked = !postsData[index].liked;
     postsData[index].likes += postsData[index].liked ? 1 : -1;
+    savePostsToLocalStorage();
     renderPosts();
 }
 
@@ -424,6 +433,7 @@ function submitComment(index) {
 
     postsData[index].comments.push(comment);
     commentInput.value = "";
+    savePostsToLocalStorage();
     renderPosts();
 }
 
@@ -447,6 +457,7 @@ function sharePost(index) {
     };
 
     postsData.unshift(sharedPost);
+    savePostsToLocalStorage();
     renderPosts();
 
     const postsSection = document.querySelector(".posts-section");
@@ -477,6 +488,7 @@ function submitPost() {
     };
 
     postsData.unshift(newPost);
+    savePostsToLocalStorage();
     renderPosts();
     closePostModal();
 
